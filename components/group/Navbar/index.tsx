@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
+import Auth from "./Auth";
 import NavLink from "./NavLink";
+import ToggleNav from "./ToggleNav";
 
 const Navbar = () => {
   return (
@@ -10,17 +12,7 @@ const Navbar = () => {
           <a className="navbar-brand" href="#">
             <Image src="/icon/logo.svg" width={60} height={60} alt="" />
           </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+          <ToggleNav />
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto text-lg gap-lg-0 gap-2">
               <NavLink link="Home" active href="/" />
@@ -28,16 +20,7 @@ const Navbar = () => {
               <NavLink link="Rewards" />
               <NavLink link="Discover" />
               <NavLink link="Global Rank" />
-
-              <li className="nav-item my-auto">
-                <a
-                  className="btn btn-sign-in d-flex justify-content-center ms-lg-2 rounded-pill"
-                  href="./src/sign-in.html"
-                  role="button"
-                >
-                  Sign In
-                </a>
-              </li>
+              <Auth isLogin />
             </ul>
           </div>
         </div>

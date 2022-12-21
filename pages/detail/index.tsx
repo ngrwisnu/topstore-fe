@@ -102,9 +102,9 @@ const DetailPage = () => {
                           <path
                             d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                             stroke="#00BAFF"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
                       </div>
@@ -142,9 +142,9 @@ const DetailPage = () => {
                           <path
                             d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                             stroke="#00BAFF"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
                       </div>
@@ -182,9 +182,9 @@ const DetailPage = () => {
                           <path
                             d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                             stroke="#00BAFF"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
                       </div>
@@ -222,9 +222,9 @@ const DetailPage = () => {
                           <path
                             d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                             stroke="#00BAFF"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
                       </div>
@@ -262,9 +262,9 @@ const DetailPage = () => {
                           <path
                             d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                             stroke="#00BAFF"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
                       </div>
@@ -312,9 +312,9 @@ const DetailPage = () => {
                             <path
                               d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                               stroke="#00BAFF"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </div>
@@ -351,9 +351,9 @@ const DetailPage = () => {
                             <path
                               d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                               stroke="#00BAFF"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </div>
