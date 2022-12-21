@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const MemberPage = () => {
@@ -6,10 +7,11 @@ const MemberPage = () => {
       <section className="sidebar">
         <div className="content pt-50 pb-30 ps-30">
           <div className="user text-center pb-50 pe-30">
-            <img
+            <Image
               src="/img/avatar-1.png"
-              width="90"
-              height="90"
+              width={90}
+              height={90}
+              alt=""
               className="img-fluid mb-20"
             />
             <h2 className="fw-bold text-xl color-palette-1 m-0">Shayna Anne</h2>
@@ -698,7 +700,7 @@ const MemberPage = () => {
                 <tbody>
                   <tr className="align-middle">
                     <th scope="row">
-                      <img
+                      <Image
                         className="float-start me-3 mb-lg-0 mb-3"
                         src="/img/overview-1.png"
                         width="80"
@@ -733,7 +735,7 @@ const MemberPage = () => {
                   </tr>
                   <tr className="align-middle text-center">
                     <th scope="row">
-                      <img
+                      <Image
                         className="float-start me-3 mb-lg-0 mb-3"
                         src="/img/overview-2.png"
                         width="80"
@@ -770,7 +772,7 @@ const MemberPage = () => {
                   </tr>
                   <tr className="align-middle text-center">
                     <th scope="row">
-                      <img
+                      <Image
                         className="float-start me-3 mb-lg-0 mb-3"
                         src="/img/overview-3.png"
                         width="80"
@@ -807,7 +809,7 @@ const MemberPage = () => {
                   </tr>
                   <tr className="align-middle text-center">
                     <th scope="row">
-                      <img
+                      <Image
                         className="float-start me-3 mb-lg-0 mb-3"
                         src="/img/overview-4.png"
                         width="80"

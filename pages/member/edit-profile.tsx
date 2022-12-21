@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const EditProfilePage = () => {
@@ -6,10 +7,11 @@ const EditProfilePage = () => {
       <section className="sidebar">
         <div className="content pt-50 pb-30 ps-30">
           <div className="user text-center pb-50 pe-30">
-            <img
+            <Image
+              alt=""
               src="/img/avatar-1.png"
-              width="90"
-              height="90"
+              width={90}
+              height={90}
               className="img-fluid mb-20"
             />
             <h2 className="fw-bold text-xl color-palette-1 m-0">Shayna Anne</h2>
@@ -292,10 +294,11 @@ const EditProfilePage = () => {
             <form action="">
               <div className="photo d-flex">
                 <div className="position-relative me-20">
-                  <img
+                  <Image
+                    alt=""
                     src="/img/avatar-1.png"
-                    width="90"
-                    height="90"
+                    width={90}
+                    height={90}
                     className="avatar img-fluid"
                   />
                   <div className="avatar-overlay position-absolute top-0 d-flex justify-content-center align-items-center">

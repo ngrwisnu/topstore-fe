@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const DetailPage = () => {
@@ -17,10 +18,10 @@ const DetailPage = () => {
           <div className="col-xl-3 col-lg-4 col-md-5 pb-30 pb-md-0 pe-md-25 text-md-start">
             <div className="row align-items-center">
               <div className="col-md-12 col-4">
-                <img
+                <Image
                   src="/img/Thumbnail-3.png"
-                  width="280"
-                  height="380"
+                  width={280}
+                  height={380}
                   className="img-fluid"
                   alt=""
                 />

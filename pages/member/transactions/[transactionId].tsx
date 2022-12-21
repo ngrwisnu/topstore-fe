@@ -6,7 +6,7 @@ const TransactionDetailPage = () => {
       <section className="sidebar">
         <div className="content pt-50 pb-30 ps-30">
           <div className="user text-center pb-50 pe-30">
-            <img
+            <Image
               src="/img/avatar-1.png"
               width="90"
               height="90"
@@ -300,7 +300,7 @@ const TransactionDetailPage = () => {
                   <div className="game-checkout d-flex flex-row align-items-center">
                     <div className="pe-4">
                       <div className="cropped">
-                        <img
+                        <Image
                           src="/img/Thumbnail-3.png"
                           width="200"
                           height="130"

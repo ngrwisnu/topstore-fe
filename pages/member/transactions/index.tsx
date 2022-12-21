@@ -6,7 +6,7 @@ const Transactions = () => {
       <section className="sidebar">
         <div className="content pt-50 pb-30 ps-30">
           <div className="user text-center pb-50 pe-30">
-            <img
+            <Image
               src="/img/avatar-1.png"
               width="90"
               height="90"
@@ -350,7 +350,7 @@ const Transactions = () => {
                 <tbody id="list_status_item">
                   <tr data-category="pending" className="align-middle">
                     <th scope="row">
-                      <img
+                      <Image
                         className="float-start me-3 mb-lg-0 mb-3"
                         src="/img/overview-1.png"
                         width="80"
@@ -393,7 +393,7 @@ const Transactions = () => {
                   </tr>
                   <tr data-category="success" className="align-middle">
                     <th scope="row">
-                      <img
+                      <Image
                         className="float-start me-3 mb-lg-0 mb-3"
                         src="/img/overview-2.png"
                         width="80"
@@ -436,7 +436,7 @@ const Transactions = () => {
                   </tr>
                   <tr data-category="failed" className="align-middle">
                     <th scope="row">
-                      <img
+                      <Image
                         className="float-start me-3 mb-lg-0 mb-3"
                         src="/img/overview-3.png"
                         width="80"
@@ -479,7 +479,7 @@ const Transactions = () => {
                   </tr>
                   <tr data-category="pending" className="align-middle">
                     <th scope="row">
-                      <img
+                      <Image
                         className="float-start me-3 mb-lg-0 mb-3"
                         src="/img/overview-4.png"
                         width="80"
