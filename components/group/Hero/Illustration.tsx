@@ -6,10 +6,16 @@ const Illustration = () => {
     <div className="col-lg-6 col-12 d-lg-block d-none">
       <div className="d-flex justify-content-lg-end justify-content-center me-lg-5">
         <div className="position-relative" data-aos="zoom-in">
-          <img src="/img/Header-1.png" className="img-fluid" alt="" />
+          <Image
+            src="/img/Header-1.png"
+            width={500}
+            height={500}
+            className="img-fluid"
+            alt=""
+          />
           <div className="card left-card position-absolute border-0">
             <div className="d-flex align-items-center mb-16 gap-3">
-              <img
+              <Image
                 src="/img/Header-2.png"
                 width="40"
                 height="40"
@@ -35,7 +41,13 @@ const Illustration = () => {
           </div>
           <div className="card right-card position-absolute border-0">
             <div className="position-relative d-flex flex-row justify-content-center mb-24">
-              <img src="/img/Header-3.png" className="rounded-pill" alt="" />
+              <Image
+                src="/img/Header-3.png"
+                width={80}
+                height={80}
+                className="rounded-pill"
+                alt=""
+              />
               <p className="right-card-support text-white text-xxs text-center position-absolute m-0">
                 New
               </p>

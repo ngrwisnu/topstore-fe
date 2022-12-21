@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -21,7 +22,7 @@ const Auth = (props: LoginType) => {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <img
+            <Image
               src="/img/avatar-1.png"
               className="rounded-circle"
               width="40"
