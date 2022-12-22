@@ -1,15 +1,17 @@
 import Image from "next/image";
 import cx from "classnames";
 import React from "react";
+import Link from "next/link";
 
 type MenuItemType = {
   title: string;
   icon: string;
   active?: boolean;
+  href: string;
 };
 
 const MenuItem = (props: MenuItemType) => {
-  const { title, icon, active } = props;
+  const { title, icon, active, href } = props;
 
   const classMenuItem = cx({
     item: true,
@@ -23,9 +25,9 @@ const MenuItem = (props: MenuItemType) => {
         <Image src={`/icon/${icon}.svg`} width={25} height={25} alt="" />
       </div>
       <p className="item-title m-0">
-        <a href="" className="text-lg text-decoration-none">
+        <Link href={href} className="text-lg text-decoration-none">
           {title}
-        </a>
+        </Link>
       </p>
     </div>
   );

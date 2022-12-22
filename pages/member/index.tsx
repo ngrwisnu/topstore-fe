@@ -5,7 +5,7 @@ import Sidebar from "../../components/group/Sidebar/Sidebar";
 const MemberPage = () => {
   return (
     <section className="overview overflow-auto">
-      <Sidebar />
+      <Sidebar activeMenu="overview" />
       <ContentOverview />
     </section>
   );
