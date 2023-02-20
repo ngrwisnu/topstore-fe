@@ -1,6 +1,6 @@
 import React from "react";
 
-type InputType = {
+export type InputType = {
   label: string;
   id: string;
   placeholder?: string;

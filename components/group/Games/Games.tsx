@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { GameItemTypes } from "../../../helpers/data-types";
+import { getGameFeature } from "../../../helpers/player";
 import GamesCard from "../../container/GamesCard/GamesCard";
 
 const Games = () => {
+  const [gameList, setGameList] = useState<any>([]);
+
+  const getGameList = useCallback(async () => {
+    const data = await getGameFeature();
+    setGameList(data);
+  }, [getGameFeature]);
+
+  useEffect(() => {
+    getGameList();
+  }, []);
+
   return (
     <section className="featured-game pt-50 pb-50">
       <div className="container-fluid">
@@ -13,31 +26,14 @@ const Games = () => {
           className="d-flex flex-row flex-lg-wrap overflow-setting justify-content-lg-between gap-lg-3 gap-4"
           data-aos="fade-up"
         >
-          <GamesCard
-            title="Super Mechs"
-            category="Mobile"
-            thumbnail="Thumbnail-1"
-          />
-          <GamesCard
-            title="Call of Duty: Modern"
-            category="Mobile"
-            thumbnail="Thumbnail-2"
-          />
-          <GamesCard
-            title="Mobile Legends"
-            category="Mobile"
-            thumbnail="Thumbnail-3"
-          />
-          <GamesCard
-            title="Clash of Clans"
-            category="Mobile"
-            thumbnail="Thumbnail-4"
-          />
-          <GamesCard
-            title="Valorant"
-            category="Desktop"
-            thumbnail="Thumbnail-5"
-          />
+          {gameList.data?.map((item: GameItemTypes) => (
+            <GamesCard
+              key={item._id}
+              title={item.name}
+              category={item.category.name}
+              thumbnail={item.thumbnail}
+            />
+          ))}
         </div>
       </div>
     </section>

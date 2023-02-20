@@ -16,7 +16,7 @@ const GamesCard = (props: GameCardType) => {
         <div className="blur-sharp">
           <Image
             className="thumbnail"
-            src={`/img/${thumbnail}.png`}
+            src={`/img/uploads/${thumbnail}`}
             width="205"
             height="270"
             alt=""

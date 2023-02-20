@@ -48,8 +48,8 @@ const TransactionDetailContent = () => {
                 <TransactionData name="Order ID" value="#GG001" />
                 <TransactionData name="Item" value="250 Diamonds" />
                 <TransactionData name="Price" value={42280500} />
-                <TransactionData name="Tax (10%)" value={4228000} />
-                <TransactionData name="Total" value={55000600} isColored />
+                <TransactionData name="Tax (10%)" value={42280500} />
+                <TransactionData name="Total" value={42280500} isColored />
               </div>
               <div className="payment pt-10 pb-10">
                 <h2 className="fw-bold text-xl color-palette-1 mb-20">
