@@ -11,6 +11,14 @@ const initialValue = {
   category: {
     name: "",
   },
+  nominal: [
+    {
+      _id: "",
+      coinName: "",
+      coinQuantity: 0,
+      price: 0,
+    },
+  ],
 };
 
 const DetailPage = () => {
