@@ -29,6 +29,7 @@ const Games = () => {
           {gameList.data?.map((item: GameItemTypes) => (
             <GamesCard
               key={item._id}
+              id={item._id}
               title={item.name}
               category={item.category.name}
               thumbnail={item.thumbnail}
