@@ -4,15 +4,17 @@ import React, { useState } from "react";
 
 const SignUpForm = () => {
   const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   const clickHandler = () => {
     const data = {
-      fullname: fullname,
-      email: email,
-      password: password,
+      fullname,
+      username,
+      email,
+      password,
     };
 
     if (typeof Storage === undefined) {
@@ -48,6 +50,24 @@ const SignUpForm = () => {
           placeholder="Enter your name"
           value={fullname}
           onChange={(e) => setFullname(e.target.value)}
+        />
+      </div>
+      <div className="pt-30">
+        <label
+          htmlFor="username"
+          className="form-label text-lg fw-medium color-palette-1 mb-10"
+        >
+          Username
+        </label>
+        <input
+          type="text"
+          className="form-control rounded-pill text-lg"
+          id="username"
+          name="username"
+          aria-describedby="username"
+          placeholder="Enter your username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
       <div className="pt-30">

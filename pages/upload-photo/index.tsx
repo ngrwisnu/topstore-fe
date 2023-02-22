@@ -1,11 +1,15 @@
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
+import { uploadUserSignup } from "../../helpers/auth";
 import { GameCategoriesTypes } from "../../helpers/data-types";
 import { getGameCategories } from "../../helpers/player";
 
 const UploadPhotoPage = () => {
   const [categories, setCategories] = useState<any>(null);
   const [favourite, setFavourite] = useState("");
+  const [image, setImage] = useState(null);
+  const [avatar, setAvatar] = useState("/icon/avatar-profile.svg");
+  const [userData, setUserData] = useState<any>(null);
 
   const gameCategories = useCallback(async () => {
     const data = await getGameCategories();
@@ -16,10 +20,33 @@ const UploadPhotoPage = () => {
 
   useEffect(() => {
     gameCategories();
+
+    async function getLocalStorage() {
+      const userData = await localStorage.getItem("user-form");
+      // @ts-ignore
+      setUserData(JSON.parse(userData));
+    }
+    getLocalStorage();
   }, []);
 
-  const clickHandler = () => {
-    console.log(favourite);
+  const clickHandler = async () => {
+    const data = {
+      name: userData.name,
+      username: userData.username,
+      email: userData.email,
+      password: userData.password,
+      image: avatar,
+      favorite: favourite,
+    };
+
+    uploadUserSignup(data);
+  };
+
+  const changeHandler = (event: any) => {
+    const img = event.target.files[0];
+    // @ts-ignore
+    setAvatar(URL.createObjectURL(img));
+    return setImage(img);
   };
 
   return (
@@ -32,10 +59,11 @@ const UploadPhotoPage = () => {
                 <div className="image-upload text-center">
                   <label htmlFor="avatar">
                     <Image
-                      src="/icon/avatar-profile.svg"
+                      src={avatar}
                       width={120}
                       height={120}
                       alt="upload photo"
+                      style={{ borderRadius: "100%" }}
                     />
                   </label>
                   <input
@@ -43,14 +71,15 @@ const UploadPhotoPage = () => {
                     type="file"
                     name="avatar"
                     accept="image/png, image/jpeg"
+                    onChange={changeHandler}
                   />
                 </div>
               </div>
               <h2 className="fw-bold text-xl text-center color-palette-1 m-0">
-                Shayna Anne
+                {userData?.fullname}
               </h2>
               <p className="text-lg text-center color-palette-1 m-0">
-                shayna@anne.com
+                {userData?.email}
               </p>
               <div className="pt-50 pb-50">
                 <label
