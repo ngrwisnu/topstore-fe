@@ -1,12 +1,12 @@
 import React from "react";
 
-interface PaymentItemTypes {
+interface PaymentItemProps {
   bankId: string;
   type: string;
   bankName: string;
 }
 
-const PaymentItem = (props: PaymentItemTypes) => {
+const PaymentItem = (props: PaymentItemProps) => {
   return (
     <label
       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../../components/group/Navbar";
 import TopUpForm from "../../components/group/TopUpForm/TopUpForm";
 import TopUpItem from "../../components/group/TopUpItem/TopUpItem";
+import { GameItemTypes } from "../../helpers/data-types";
 import { getVoucherFeature } from "../../helpers/player";
 
 const initialValue = {
@@ -11,14 +12,6 @@ const initialValue = {
   category: {
     name: "",
   },
-  nominal: [
-    {
-      _id: "",
-      coinName: "",
-      coinQuantity: 0,
-      price: 0,
-    },
-  ],
 };
 
 const DetailPage = () => {

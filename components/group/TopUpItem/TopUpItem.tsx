@@ -1,9 +1,9 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { CategoryTypes } from "../../../helpers/data-types";
 import ItemLoading from "./ItemLoading";
 
-type TopUpDetailType = {
+type TopUpDetailProps = {
   type: "mobile" | "desktop";
   data: {
     name: string;
@@ -12,7 +12,7 @@ type TopUpDetailType = {
   };
 };
 
-const TopUpItem = (props: TopUpDetailType) => {
+const TopUpItem = (props: TopUpDetailProps) => {
   const { type, data } = props;
 
   if (data === undefined) {

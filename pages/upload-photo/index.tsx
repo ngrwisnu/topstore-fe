@@ -1,7 +1,27 @@
 import Image from "next/image";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { GameCategoriesTypes } from "../../helpers/data-types";
+import { getGameCategories } from "../../helpers/player";
 
 const UploadPhotoPage = () => {
+  const [categories, setCategories] = useState<any>(null);
+  const [favourite, setFavourite] = useState("");
+
+  const gameCategories = useCallback(async () => {
+    const data = await getGameCategories();
+
+    setCategories(data);
+    setFavourite(data.data[0]._id);
+  }, []);
+
+  useEffect(() => {
+    gameCategories();
+  }, []);
+
+  const clickHandler = () => {
+    console.log(favourite);
+  };
+
   return (
     <section className="sign-up-photo mx-auto pt-lg-227 pb-lg-227 pt-130 pb-50">
       <div className="container mx-auto">
@@ -44,26 +64,29 @@ const UploadPhotoPage = () => {
                   name="category"
                   className="form-select d-block w-100 rounded-pill text-lg"
                   aria-label="Favorite Game"
+                  value={favourite}
+                  // @ts-ignore
+                  onChange={(e) => setFavourite(e.target.value)}
                 >
-                  <option value="" disabled selected>
-                    Select Category
-                  </option>
-                  <option value="fps">First Person Shoter</option>
-                  <option value="rpg">Role Playing Game</option>
-                  <option value="arcade">Arcade</option>
-                  <option value="sport">Sport</option>
+                  {categories?.data.map((item: GameCategoriesTypes) => {
+                    return (
+                      <option value={item._id} key={item._id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             </div>
 
             <div className="button-group d-flex flex-column mx-auto">
-              <a
+              <button
                 className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
-                href="./sign-up-photo-success.html"
-                role="button"
+                type="button"
+                onClick={clickHandler}
               >
                 Create My Account
-              </a>
+              </button>
 
               <a
                 className="btn btn-tnc text-lg color-palette-1 text-decoration-underline pt-15"

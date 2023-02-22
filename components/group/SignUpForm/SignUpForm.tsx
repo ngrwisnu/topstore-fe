@@ -1,7 +1,31 @@
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 
 const SignUpForm = () => {
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const clickHandler = () => {
+    const data = {
+      fullname: fullname,
+      email: email,
+      password: password,
+    };
+
+    if (typeof Storage === undefined) {
+      alert("No storage support!");
+    } else {
+      localStorage.setItem("user-form", JSON.stringify(data));
+      router.push("/upload-photo");
+
+      const getUserForm = localStorage.getItem("user-form");
+      console.log(JSON.parse(getUserForm!));
+    }
+  };
+
   return (
     <>
       <h2 className="text-4xl fw-bold color-palette-1 mb-10">Sign Up</h2>
@@ -22,6 +46,8 @@ const SignUpForm = () => {
           name="name"
           aria-describedby="name"
           placeholder="Enter your name"
+          value={fullname}
+          onChange={(e) => setFullname(e.target.value)}
         />
       </div>
       <div className="pt-30">
@@ -38,6 +64,8 @@ const SignUpForm = () => {
           name="email"
           aria-describedby="email"
           placeholder="Enter your email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="pt-30">
@@ -54,20 +82,21 @@ const SignUpForm = () => {
           name="password"
           aria-describedby="password"
           placeholder="Your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
       <div className="button-group d-flex flex-column mx-auto pt-50">
-        <Link
+        <button
           className="btn btn-sign-up fw-medium text-lg text-white rounded-pill mb-16"
-          href="/sign-up-photo"
-          role="button"
+          onClick={clickHandler}
+          type="button"
         >
           Continue
-        </Link>
-
+        </button>
         <Link
-          className="btn btn-sign-in fw-medium text-lg color-palette-1 rounded-pill"
-          href="/sign-in"
+          className="btn btn-sign-in fw-medium text-lg color-palette-1 rounded-pill mb-16"
+          href="/login"
           role="button"
         >
           Sign In

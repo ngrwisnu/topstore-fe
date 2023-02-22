@@ -1,13 +1,14 @@
 import React from "react";
+import { getCurrency } from "../../../helpers/NumberFormatter";
 
-interface NominalItemTypes {
+interface NominalItemProps {
   id: string;
   coinName: string;
   coinQuantity: number;
   price: number;
 }
 
-const NominalItem = (props: NominalItemTypes) => {
+const NominalItem = (props: NominalItemProps) => {
   const { id, coinName, coinQuantity, price } = props;
 
   return (
@@ -40,7 +41,7 @@ const NominalItem = (props: NominalItemTypes) => {
             />
           </svg>
         </div>
-        <p className="text-lg color-palette-1 m-0">{price}</p>
+        <p className="text-lg color-palette-1 m-0">{getCurrency(price)}</p>
       </div>
     </label>
   );

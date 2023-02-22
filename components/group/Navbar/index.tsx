@@ -20,7 +20,7 @@ const Navbar = () => {
               <NavLink link="Rewards" />
               <NavLink link="Discover" />
               <NavLink link="Global Rank" />
-              <Auth isLogin />
+              <Auth />
             </ul>
           </div>
         </div>
