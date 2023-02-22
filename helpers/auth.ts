@@ -1,21 +1,30 @@
-const LOCAL_API = process.env.NEXT_PUBLIC_LOCAL_SERVER;
+const URL = process.env.NEXT_PUBLIC_SERVER;
+const ENDPOINT = "players.json";
 
 export const uploadUserSignup = async (userData: any) => {
-  localStorage.setItem("signup-data", JSON.stringify(userData));
+  try {
+    const data = await fetch(`${URL}/${ENDPOINT}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
 
-  const response = await localStorage.getItem("signup-data");
-  console.log(JSON.parse(response!));
+    const response = await data.json();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-  //   const API_ENDPOINT = "auth/signup";
+export const getPlayers = async () => {
+  try {
+    const data = await fetch(`${URL}/${ENDPOINT}`);
+    const response = await data.json();
 
-  //   let data = await fetch(`${LOCAL_API}/${API_ENDPOINT}`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(userData),
-  //   });
-
-  //   let response = await data.json();
-  //   return response;
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 };

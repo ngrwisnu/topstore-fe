@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { uploadUserSignup } from "../../helpers/auth";
 import { GameCategoriesTypes } from "../../helpers/data-types";
@@ -10,6 +11,7 @@ const UploadPhotoPage = () => {
   const [image, setImage] = useState(null);
   const [avatar, setAvatar] = useState("/icon/avatar-profile.svg");
   const [userData, setUserData] = useState<any>(null);
+  const router = useRouter();
 
   const gameCategories = useCallback(async () => {
     const data = await getGameCategories();
@@ -29,7 +31,7 @@ const UploadPhotoPage = () => {
     getLocalStorage();
   }, []);
 
-  const clickHandler = async () => {
+  const submitHandler = async () => {
     const data = {
       name: userData.name,
       username: userData.username,
@@ -39,7 +41,10 @@ const UploadPhotoPage = () => {
       favorite: favourite,
     };
 
-    uploadUserSignup(data);
+    const result = await uploadUserSignup(data);
+    localStorage.removeItem("user-form");
+
+    router.push("/sign-up-success");
   };
 
   const changeHandler = (event: any) => {
@@ -112,7 +117,7 @@ const UploadPhotoPage = () => {
               <button
                 className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
                 type="button"
-                onClick={clickHandler}
+                onClick={submitHandler}
               >
                 Create My Account
               </button>

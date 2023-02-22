@@ -1,15 +1,27 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getPlayers } from "../../../helpers/auth";
 
 const SignUpForm = () => {
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [players, setPlayers] = useState(null);
+  const [isExist, setIsExist] = useState(false);
   const router = useRouter();
 
-  const clickHandler = () => {
+  useEffect(() => {
+    async function playerList() {
+      const data = await getPlayers();
+      setPlayers(data);
+    }
+
+    playerList();
+  }, []);
+
+  const submitHandler = () => {
     const data = {
       fullname,
       username,
@@ -50,6 +62,7 @@ const SignUpForm = () => {
           placeholder="Enter your name"
           value={fullname}
           onChange={(e) => setFullname(e.target.value)}
+          required
         />
       </div>
       <div className="pt-30">
@@ -68,6 +81,7 @@ const SignUpForm = () => {
           placeholder="Enter your username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
       </div>
       <div className="pt-30">
@@ -86,6 +100,7 @@ const SignUpForm = () => {
           placeholder="Enter your email address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
       </div>
       <div className="pt-30">
@@ -104,12 +119,13 @@ const SignUpForm = () => {
           placeholder="Your password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
       </div>
       <div className="button-group d-flex flex-column mx-auto pt-50">
         <button
           className="btn btn-sign-up fw-medium text-lg text-white rounded-pill mb-16"
-          onClick={clickHandler}
+          onClick={submitHandler}
           type="button"
         >
           Continue
