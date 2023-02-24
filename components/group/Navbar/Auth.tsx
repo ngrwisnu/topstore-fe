@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 type LoginType = {
@@ -8,6 +9,12 @@ type LoginType = {
 
 const Auth = (props: LoginType) => {
   const { isLogin } = props;
+  const router = useRouter();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("player");
+    router.push("/");
+  };
 
   if (isLogin) {
     return (
@@ -60,12 +67,13 @@ const Auth = (props: LoginType) => {
               </Link>
             </li>
             <li>
-              <Link
+              <button
                 className="dropdown-item text-lg color-palette-2"
-                href="/login"
+                type="button"
+                onClick={logoutHandler}
               >
                 Log Out
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

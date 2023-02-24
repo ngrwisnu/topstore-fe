@@ -1,7 +1,41 @@
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useCallback, useEffect, useState } from "react";
+import { getPlayers } from "../../../helpers/auth";
 
 const LoginForm = () => {
+  const [players, setPlayers] = useState([]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const getPlayerList = useCallback(async () => {
+    const result = await getPlayers();
+    setPlayers(Object.values(result));
+  }, [getPlayers]);
+
+  useEffect(() => {
+    getPlayerList();
+  }, []);
+
+  const submitHandler = () => {
+    // @ts-ignore
+    const playerEmail = players.find((item) => (item.email = email));
+
+    if (!playerEmail) alert("Player not found!");
+
+    // @ts-ignore
+    if (playerEmail?.password == password) {
+      const data = {
+        email,
+        password,
+      };
+
+      localStorage.setItem("player", JSON.stringify(data));
+      router.push("/");
+    }
+  };
+
   return (
     <>
       <h2 className="text-4xl fw-bold color-palette-1 mb-10">Sign In</h2>
@@ -22,6 +56,8 @@ const LoginForm = () => {
           name="email"
           aria-describedby="email"
           placeholder="Enter your email address"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
       </div>
       <div className="pt-30">
@@ -38,16 +74,18 @@ const LoginForm = () => {
           name="password"
           aria-describedby="password"
           placeholder="Your password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
         />
       </div>
       <div className="button-group d-flex flex-column mx-auto pt-50">
-        <Link
+        <button
           className="btn btn-sign-in fw-medium text-lg text-white rounded-pill mb-16"
-          href="/upload-photo"
-          role="button"
+          type="button"
+          onClick={submitHandler}
         >
           Continue to Sign In
-        </Link>
+        </button>
 
         <Link
           className="btn btn-sign-up fw-medium text-lg color-palette-1 rounded-pill"

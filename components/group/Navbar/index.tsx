@@ -1,10 +1,24 @@
 import Image from "next/image";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Auth from "./Auth";
 import NavLink from "./NavLink";
 import ToggleNav from "./ToggleNav";
 
 const Navbar = () => {
+  const [player, setPlayer] = useState({
+    email: "",
+    password: "",
+  });
+
+  const getPlayerData = useCallback(async () => {
+    const result = await localStorage.getItem("player");
+    setPlayer(JSON.parse(result!));
+  }, []);
+
+  useEffect(() => {
+    getPlayerData();
+  }, []);
+
   return (
     <section className="container">
       <nav className="navbar navbar-expand-lg navbar-light bg-light bg-white pt-lg-40 pb-lg-40 pt-30 pb-50">
@@ -20,7 +34,7 @@ const Navbar = () => {
               <NavLink link="Rewards" />
               <NavLink link="Discover" />
               <NavLink link="Global Rank" />
-              <Auth />
+              {player ? <Auth isLogin /> : <Auth />}
             </ul>
           </div>
         </div>
