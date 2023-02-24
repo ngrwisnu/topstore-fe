@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const SignUpSuccessPage = () => {
   return (
     <section className="sign-up-success mx-auto pt-md-179 pb-md-179 pt-150 pb-100">
@@ -191,13 +193,13 @@ const SignUpSuccessPage = () => {
           </p>
         </div>
         <div className="button-group d-flex flex-column mx-auto">
-          <a
+          <Link
             className="btn btn-top-up fw-medium text-lg text-white rounded-pill"
-            href="../index.html"
+            href="/login"
             role="button"
           >
-            Top Up
-          </a>
+            Login
+          </Link>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { getPlayers } from "../../../helpers/auth";
 
 const SignUpForm = () => {
@@ -8,17 +9,16 @@ const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [players, setPlayers] = useState(null);
-  const [isExist, setIsExist] = useState(false);
+  const [players, setPlayers] = useState([]);
   const router = useRouter();
 
-  useEffect(() => {
-    async function playerList() {
-      const data = await getPlayers();
-      setPlayers(data);
-    }
+  const getPlayerList = useCallback(async () => {
+    const result = await getPlayers();
+    setPlayers(Object.values(result));
+  }, [getPlayers]);
 
-    playerList();
+  useEffect(() => {
+    getPlayerList();
   }, []);
 
   const submitHandler = () => {
@@ -29,14 +29,17 @@ const SignUpForm = () => {
       password,
     };
 
-    if (typeof Storage === undefined) {
-      alert("No storage support!");
-    } else {
-      localStorage.setItem("user-form", JSON.stringify(data));
-      router.push("/upload-photo");
+    const playerList = players.find((item: any) => item.email === email);
 
-      const getUserForm = localStorage.getItem("user-form");
-      console.log(JSON.parse(getUserForm!));
+    if (playerList) {
+      toast.error("Account already exist!");
+    } else {
+      if (typeof Storage === undefined) {
+        alert("No storage support!");
+      } else {
+        localStorage.setItem("user-form", JSON.stringify(data));
+        router.push("/upload-photo");
+      }
     }
   };
 

@@ -41,7 +41,7 @@ const UploadPhotoPage = () => {
       favorite: favourite,
     };
 
-    const result = await uploadUserSignup(data);
+    await uploadUserSignup(data);
     localStorage.removeItem("user-form");
 
     router.push("/sign-up-success");

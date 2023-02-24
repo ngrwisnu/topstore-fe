@@ -25,8 +25,9 @@ const LoginForm = () => {
     if (playerData) {
       if (playerData.password === password) {
         const data = {
-          email,
-          password,
+          username: playerData.username,
+          email: playerData.email,
+          image: playerData.image,
         };
 
         localStorage.setItem("player", JSON.stringify(data));
