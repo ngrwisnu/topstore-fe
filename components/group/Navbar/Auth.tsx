@@ -13,7 +13,7 @@ const Auth = (props: LoginType) => {
 
   const logoutHandler = () => {
     localStorage.removeItem("player");
-    router.push("/");
+    router.reload();
   };
 
   if (isLogin) {

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { getPlayers } from "../../../helpers/auth";
 
 const LoginForm = () => {
@@ -19,20 +20,22 @@ const LoginForm = () => {
   }, []);
 
   const submitHandler = () => {
-    // @ts-ignore
-    const playerEmail = players.find((item) => (item.email = email));
+    const playerData: any = players.find((item: any) => item.email === email);
 
-    if (!playerEmail) alert("Player not found!");
+    if (playerData) {
+      if (playerData.password === password) {
+        const data = {
+          email,
+          password,
+        };
 
-    // @ts-ignore
-    if (playerEmail?.password == password) {
-      const data = {
-        email,
-        password,
-      };
-
-      localStorage.setItem("player", JSON.stringify(data));
-      router.push("/");
+        localStorage.setItem("player", JSON.stringify(data));
+        router.push("/");
+      } else {
+        toast.error("Wrong Password!");
+      }
+    } else {
+      toast.warn("Player Not Found!");
     }
   };
 

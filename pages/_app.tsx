@@ -18,6 +18,8 @@ import type { AppProps } from "next/app";
 import { Fragment } from "react";
 import Head from "next/head";
 import Script from "next/script";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -34,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
         crossOrigin="anonymous"
       />
       <Component {...pageProps} />
+      <ToastContainer autoClose={3000} />
     </Fragment>
   );
 }

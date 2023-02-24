@@ -13,7 +13,7 @@ const Navbar = () => {
   const getPlayerData = useCallback(async () => {
     const result = await localStorage.getItem("player");
     setPlayer(JSON.parse(result!));
-  }, []);
+  }, [player]);
 
   useEffect(() => {
     getPlayerData();
