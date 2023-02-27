@@ -1,13 +1,23 @@
 import Image from "next/image";
 import React from "react";
 
-const CheckoutItem = () => {
+interface CheckoutItemProps {
+  voucherDetails: {
+    name: string;
+    thumbnail: string;
+    category: {
+      name: string;
+    };
+  };
+}
+
+const CheckoutItem = (props: CheckoutItemProps) => {
   return (
     <div className="game-checkout d-flex flex-row align-items-center pt-md-50 pb-md-50 pt-30 pb-30">
       <div className="pe-4">
         <div className="cropped">
           <Image
-            src="/img/Thumbnail-3.png"
+            src={`/img/uploads/${props.voucherDetails.thumbnail}`}
             width={500}
             height={500}
             className="img-fluid"
@@ -17,10 +27,11 @@ const CheckoutItem = () => {
       </div>
       <div>
         <p className="fw-bold text-xl color-palette-1 mb-10">
-          Mobile Legends:
-          <br /> The New Battle 2021
+          {props.voucherDetails.name}
         </p>
-        <p className="color-palette-2 m-0">Category: Mobile</p>
+        <p className="color-palette-2 m-0">
+          Category: {props.voucherDetails.category.name}
+        </p>
       </div>
     </div>
   );

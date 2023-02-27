@@ -44,6 +44,11 @@ const TopUpForm = (props: any) => {
       toast.warn("Please complete the field!");
     } else {
       const data = {
+        voucherDetails: {
+          category: props.voucherDetails.category,
+          name: props.voucherDetails.name,
+          thumbnail: props.voucherDetails.thumbnail,
+        },
         playerId,
         bankHolderName,
         nominalTopup,

@@ -56,7 +56,7 @@ const DetailPage = () => {
               {/* <!-- Desktop: Game title --> */}
               <TopUpItem data={voucherDetails.data} type="desktop" />
               <hr />
-              <TopUpForm />
+              <TopUpForm voucherDetails={voucherDetails.data} />
             </div>
           </div>
         </div>

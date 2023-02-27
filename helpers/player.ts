@@ -1,5 +1,9 @@
+import { CheckoutDataTypes } from "./data-types";
+
 const MOCK_API = process.env.NEXT_PUBLIC_MOCK_SERVER;
 const API_VERSION = "api/v1";
+const URL = process.env.NEXT_PUBLIC_SERVER;
+const ENDPOINT = "orders.json";
 
 export const getGameFeature = async () => {
   const API_ENDPOINT = "players/landing-page";
@@ -38,4 +42,21 @@ export const getGameCategories = async () => {
 
   let response = await data.json();
   return response;
+};
+
+export const setOrder = async (checkoutData: CheckoutDataTypes) => {
+  try {
+    const data = await fetch(`${URL}/${ENDPOINT}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(checkoutData),
+    });
+
+    const response = await data.json();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 };

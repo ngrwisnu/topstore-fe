@@ -27,7 +27,7 @@ const CompleteCheckoutPage = () => {
                 stroke="#FF78B7"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke-dasharray="1.22 4"
+                strokeDasharray="1.22 4"
               />
               <path
                 d="M163.407 187.897C164.433 187.897 165.46 187.897 166.486 187.897"
@@ -40,7 +40,7 @@ const CompleteCheckoutPage = () => {
                 d="M30.5337 294.317H334.245"
                 stroke="#B1B9CC"
                 strokeWidth="2"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -48,7 +48,7 @@ const CompleteCheckoutPage = () => {
                 d="M2.8302 294.317H15.1428"
                 stroke="#B1B9CC"
                 strokeWidth="2"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -108,7 +108,7 @@ const CompleteCheckoutPage = () => {
                 d="M239.847 95.4248V119.189C239.847 143.469 220.352 162.583 196.753 162.583C172.641 162.583 153.659 142.952 153.659 119.189V95.4248"
                 stroke="white"
                 strokeWidth="1.8941"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />

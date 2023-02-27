@@ -1,22 +1,52 @@
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { setOrder } from "../../../helpers/player";
 
 const CheckoutConfirmation = () => {
+  const [isPaid, setIsPaid] = useState(false);
+  const router = useRouter();
+
+  const onSubmit = async () => {
+    const checkoutDataLocal = localStorage.getItem("topup-data");
+    const checkoutData = JSON.parse(checkoutDataLocal!);
+
+    if (!isPaid) {
+      toast.warn("Complete the payment first!");
+    } else {
+      const data = {
+        voucher: checkoutData.voucherDetails.category._id,
+        nominal: checkoutData.nominalTopup.id,
+        bank: checkoutData.paymentMethod.bankId,
+        name: checkoutData.bankHolderName,
+        userAccount: checkoutData.playerId,
+      };
+
+      const response = await setOrder(data);
+      router.push("/complete-checkout");
+    }
+  };
+
   return (
     <>
       <label className="checkbox-label text-lg color-palette-1">
         I have transferred the money
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={isPaid}
+          onChange={() => setIsPaid(!isPaid)}
+        />
         <span className="checkmark"></span>
       </label>
       <div className="d-md-block d-flex flex-column w-100 pt-50">
-        <Link
+        <button
           className="btn btn-confirm-payment rounded-pill fw-medium text-white border-0 text-lg"
-          href="/complete-checkout"
-          role="button"
+          type="button"
+          onClick={onSubmit}
         >
           Confirm Payment
-        </Link>
+        </button>
       </div>
     </>
   );

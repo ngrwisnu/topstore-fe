@@ -29,3 +29,11 @@ export interface PaymentProps {
   type: string;
   bankName: string;
 }
+
+export interface CheckoutDataTypes {
+  voucher: string;
+  nominal: string;
+  bank: string;
+  name: string;
+  userAccount: string;
+}
