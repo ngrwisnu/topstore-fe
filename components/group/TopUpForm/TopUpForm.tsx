@@ -1,9 +1,59 @@
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { NominalTopUpProps, PaymentProps } from "../../../helpers/data-types";
 import NominalItem from "./NominalItem";
 import PaymentItem from "./PaymentItem";
 
+const initialNominal = {
+  id: "",
+  coinName: "",
+  coinQuantity: 0,
+  price: 0,
+};
+
+const initialPaymentMethod = {
+  bankId: "",
+  type: "",
+  bankName: "",
+};
+
 const TopUpForm = (props: any) => {
+  const [playerId, setPlayerId] = useState("");
+  const [bankHolderName, setBankHolderName] = useState("");
+  const [nominalTopup, setNominalTopup] = useState(initialNominal);
+  const [paymentMethod, setPaymentMethod] = useState(initialPaymentMethod);
+  const router = useRouter();
+
+  const nominalChangeHandler = (data: NominalTopUpProps) => {
+    setNominalTopup(data);
+  };
+
+  const paymentChangeHandler = (data: PaymentProps) => {
+    setPaymentMethod(data);
+  };
+
+  const continueToCheckout = () => {
+    if (
+      nominalTopup === initialNominal ||
+      paymentMethod === initialPaymentMethod ||
+      playerId === "" ||
+      bankHolderName === ""
+    ) {
+      toast.warn("Please complete the field!");
+    } else {
+      const data = {
+        playerId,
+        bankHolderName,
+        nominalTopup,
+        paymentMethod,
+      };
+
+      localStorage.setItem("topup-data", JSON.stringify(data));
+      router.push("/checkout");
+    }
+  };
   return (
     <form action="./checkout.html" method="POST">
       <div className="pt-md-50 pt-30">
@@ -21,6 +71,8 @@ const TopUpForm = (props: any) => {
             name="ID"
             aria-describedby="verifyID"
             placeholder="Enter your ID"
+            value={playerId}
+            onChange={(event) => setPlayerId(event.target.value)}
           />
         </div>
       </div>
@@ -34,36 +86,42 @@ const TopUpForm = (props: any) => {
             coinName="GOLD"
             coinQuantity={50}
             price={1250000}
+            onChange={nominalChangeHandler}
           />
           <NominalItem
             id="603152e0a4dd027eefaccf62"
             coinName="GOLD"
             coinQuantity={100}
             price={2250000}
+            onChange={nominalChangeHandler}
           />
           <NominalItem
             id="603152e0a4dd027eefaccf63"
             coinName="GOLD"
             coinQuantity={125}
             price={3250000}
+            onChange={nominalChangeHandler}
           />
           <NominalItem
             id="603152e0a4dd027eefaccf64"
             coinName="GOLD"
             coinQuantity={500}
             price={5000000}
+            onChange={nominalChangeHandler}
           />
           <NominalItem
             id="603152e0a4dd027eefaccf65"
             coinName="GOLD"
             coinQuantity={225}
             price={4250000}
+            onChange={nominalChangeHandler}
           />
           <NominalItem
             id="603152e0a4dd027eefaccf66"
             coinName="GOLD"
             coinQuantity={225}
             price={4250000}
+            onChange={nominalChangeHandler}
           />
           <div className="col-lg-4 col-sm-6">{/* <!-- Blank --> */}</div>
         </div>
@@ -78,11 +136,13 @@ const TopUpForm = (props: any) => {
               bankId="60ae2431196ccd27e6587ab3"
               type="VISA"
               bankName="Credit card"
+              onChange={paymentChangeHandler}
             />
             <PaymentItem
               bankId="60ae2431196ccd27e6587ab1"
               type="Tranfer"
               bankName="BCA"
+              onChange={paymentChangeHandler}
             />
 
             <div className="col-lg-4 col-sm-6">{/* <!-- Blank --> */}</div>
@@ -103,16 +163,18 @@ const TopUpForm = (props: any) => {
           name="bankAccount"
           aria-describedby="bankAccount"
           placeholder="Enter your Bank Account Name"
+          value={bankHolderName}
+          onChange={(event) => setBankHolderName(event.target.value)}
         />
       </div>
       <div className="d-sm-block d-flex flex-column w-100">
-        <Link
-          href="/checkout"
-          type="submit"
+        <button
+          onClick={continueToCheckout}
+          type="button"
           className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg"
         >
           Continue
-        </Link>
+        </button>
         {/* <button
                   type="submit"
                   className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg"

@@ -1,4 +1,5 @@
 import React from "react";
+import { NominalTopUpProps } from "../../../helpers/data-types";
 import { getCurrency } from "../../../helpers/NumberFormatter";
 
 interface NominalItemProps {
@@ -6,15 +7,17 @@ interface NominalItemProps {
   coinName: string;
   coinQuantity: number;
   price: number;
+  onChange: (data: NominalTopUpProps) => void;
 }
 
 const NominalItem = (props: NominalItemProps) => {
-  const { id, coinName, coinQuantity, price } = props;
+  const { id, coinName, coinQuantity, price, onChange } = props;
 
   return (
     <label
       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
       htmlFor={id}
+      onChange={() => onChange({ id, coinName, coinQuantity, price })}
     >
       <input className="d-none" type="radio" id={id} name="topup" value={id} />
       <div className="detail-card">

@@ -1,10 +1,20 @@
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import CheckoutConfirmation from "../../components/group/CheckoutConfirmation/CheckoutConfirmation";
 import CheckoutDetail from "../../components/group/CheckoutDetail/CheckoutDetail";
 import CheckoutItem from "../../components/group/CheckoutItem/CheckoutItem";
 
 const CheckoutPage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const loginData = localStorage.getItem("player");
+
+    if (!loginData) {
+      router.push("/login");
+    }
+  }, []);
   return (
     <section className="checkout mx-auto pt-md-100 pb-md-145 pt-30 pb-30">
       <div className="container-fluid">

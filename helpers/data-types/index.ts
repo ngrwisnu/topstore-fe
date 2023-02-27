@@ -16,3 +16,16 @@ export interface GameCategoriesTypes {
   _id: string;
   name: string;
 }
+
+export interface NominalTopUpProps {
+  id: string;
+  coinName: string;
+  coinQuantity: number;
+  price: number;
+}
+
+export interface PaymentProps {
+  bankId: string;
+  type: string;
+  bankName: string;
+}

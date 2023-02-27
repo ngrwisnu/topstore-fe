@@ -1,9 +1,11 @@
 import React from "react";
+import { PaymentProps } from "../../../helpers/data-types";
 
 interface PaymentItemProps {
   bankId: string;
   type: string;
   bankName: string;
+  onChange: (data: PaymentProps) => void;
 }
 
 const PaymentItem = (props: PaymentItemProps) => {
@@ -11,6 +13,13 @@ const PaymentItem = (props: PaymentItemProps) => {
     <label
       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
       htmlFor={props.bankId}
+      onChange={() =>
+        props.onChange({
+          bankId: props.bankId,
+          type: props.type,
+          bankName: props.bankName,
+        })
+      }
     >
       <input
         className="d-none"
