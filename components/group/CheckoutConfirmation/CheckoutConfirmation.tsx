@@ -24,6 +24,7 @@ const CheckoutConfirmation = () => {
       };
 
       const response = await setOrder(data);
+      localStorage.removeItem("topup-data");
       router.push("/complete-checkout");
     }
   };

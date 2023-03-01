@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from "react";
 import Footer from "./Footer";
 import MenuItem from "./MenuItem";
@@ -8,6 +9,13 @@ type SidebarType = {
 };
 
 const Sidebar = (props: SidebarType) => {
+  const router = useRouter();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("player");
+    router.push("/login");
+  };
+
   return (
     <section className="sidebar">
       <div className="content pt-50 pb-30 ps-30">
@@ -34,7 +42,7 @@ const Sidebar = (props: SidebarType) => {
             icon="ic-setting"
             active={props.activeMenu === "edit-profile"}
           />
-          <MenuItem href="/login" title="Logout" icon="ic-logout" />
+          <MenuItem onClick={logoutHandler} title="Logout" icon="ic-logout" />
         </div>
         <Footer />
       </div>
