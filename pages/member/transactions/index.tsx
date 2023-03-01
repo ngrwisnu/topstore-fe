@@ -1,18 +1,9 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import Sidebar from "../../../components/group/Sidebar/Sidebar";
 import TransactionsContent from "../../../components/group/TransactionsContent/TransactionsContent";
+import { usePrivateRouter } from "../../../helpers/hooks";
 
 const Transactions = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    const loginData = localStorage.getItem("player");
-
-    if (!loginData) {
-      router.push("/login");
-    }
-  }, []);
+  usePrivateRouter();
 
   return (
     <section className="transactions overflow-auto">

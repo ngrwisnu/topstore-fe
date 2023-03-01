@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import CheckoutConfirmation from "../../components/group/CheckoutConfirmation/CheckoutConfirmation";
 import CheckoutDetail from "../../components/group/CheckoutDetail/CheckoutDetail";
 import CheckoutItem from "../../components/group/CheckoutItem/CheckoutItem";
+import { usePrivateRouter } from "../../helpers/hooks";
 
 const initialData = {
   playerId: "",
@@ -32,19 +32,17 @@ const initialData = {
 
 const CheckoutPage = () => {
   const [topUpData, setTopUpData] = useState(initialData);
-  const router = useRouter();
 
-  useEffect(() => {
-    const loginData = localStorage.getItem("player");
-
-    if (!loginData) {
-      router.push("/login");
-    }
-  }, []);
+  usePrivateRouter();
 
   useEffect(() => {
     const topUpFromLocal = localStorage.getItem("topup-data");
-    setTopUpData(JSON.parse(topUpFromLocal!));
+
+    if (!topUpFromLocal) {
+      return;
+    }
+
+    setTopUpData(JSON.parse(topUpFromLocal));
   }, []);
 
   return (
