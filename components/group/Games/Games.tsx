@@ -4,11 +4,23 @@ import { getGameFeature } from "../../../helpers/player";
 import GamesCard from "../../container/GamesCard/GamesCard";
 
 const Games = () => {
-  const [gameList, setGameList] = useState<any>([]);
+  const [gameList, setGameList] = useState([
+    {
+      _id: "",
+      name: "",
+      status: "",
+      thumbnail: "",
+      category: {
+        _id: "",
+        name: "",
+        __v: 0,
+      },
+    },
+  ]);
 
   const getGameList = useCallback(async () => {
     const data = await getGameFeature();
-    setGameList(data);
+    setGameList(data.data);
   }, [getGameFeature]);
 
   useEffect(() => {
@@ -26,12 +38,16 @@ const Games = () => {
           className="d-flex flex-row flex-lg-wrap overflow-setting justify-content-lg-between gap-lg-3 gap-4"
           data-aos="fade-up"
         >
-          {gameList.data?.map((item: GameItemTypes) => (
+          {gameList.map((item: GameItemTypes) => (
             <GamesCard
               key={item._id}
+              // @ts-ignore
               id={item._id}
+              // @ts-ignore
               title={item.name}
-              category={item.category.name}
+              // @ts-ignore
+              category={item.category?.name}
+              // @ts-ignore
               thumbnail={item.thumbnail}
             />
           ))}

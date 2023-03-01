@@ -2,7 +2,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { NominalTopUpProps, PaymentProps } from "../../../helpers/data-types";
+import {
+  NominalTopUpProps,
+  PaymentProps,
+  TopUpFormProps,
+} from "../../../helpers/data-types";
 import NominalItem from "./NominalItem";
 import PaymentItem from "./PaymentItem";
 
@@ -19,7 +23,7 @@ const initialPaymentMethod = {
   bankName: "",
 };
 
-const TopUpForm = (props: any) => {
+const TopUpForm = (props: TopUpFormProps) => {
   const [playerId, setPlayerId] = useState("");
   const [bankHolderName, setBankHolderName] = useState("");
   const [nominalTopup, setNominalTopup] = useState(initialNominal);
@@ -59,6 +63,7 @@ const TopUpForm = (props: any) => {
       router.push("/checkout");
     }
   };
+
   return (
     <form action="./checkout.html" method="POST">
       <div className="pt-md-50 pt-30">

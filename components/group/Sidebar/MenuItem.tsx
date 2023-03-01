@@ -12,7 +12,7 @@ type MenuItemType = {
 };
 
 const MenuItem = (props: MenuItemType) => {
-  const { title, icon, active, href, onClick } = props;
+  const { title, icon, active, href = "/member", onClick } = props;
 
   const classMenuItem = cx({
     item: true,
@@ -31,7 +31,6 @@ const MenuItem = (props: MenuItemType) => {
             {title}
           </a>
         ) : (
-          // @ts-ignore
           <Link href={href} className="text-lg text-decoration-none">
             {title}
           </Link>

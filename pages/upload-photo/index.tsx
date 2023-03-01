@@ -2,21 +2,30 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { uploadUserSignup } from "../../helpers/auth";
-import { GameCategoriesTypes } from "../../helpers/data-types";
+import { CategoryTypes, UserSignUpFormTypes } from "../../helpers/data-types";
 import { getGameCategories } from "../../helpers/player";
 
+const initialCategories = [
+  {
+    _id: "",
+    name: "",
+    __v: 0,
+  },
+];
+
 const UploadPhotoPage = () => {
-  const [categories, setCategories] = useState<any>(null);
+  const [categories, setCategories] =
+    useState<CategoryTypes[]>(initialCategories);
   const [favourite, setFavourite] = useState("");
   const [image, setImage] = useState(null);
   const [avatar, setAvatar] = useState("/icon/avatar-profile.svg");
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<UserSignUpFormTypes | null>(null);
   const router = useRouter();
 
   const gameCategories = useCallback(async () => {
     const data = await getGameCategories();
 
-    setCategories(data);
+    setCategories(data.data);
     setFavourite(data.data[0]._id);
   }, []);
 
@@ -33,10 +42,9 @@ const UploadPhotoPage = () => {
 
   const submitHandler = async () => {
     const data = {
-      name: userData.name,
-      username: userData.username,
-      email: userData.email,
-      password: userData.password,
+      username: userData!.username,
+      email: userData!.email,
+      password: userData!.password,
       image: avatar,
       favorite: favourite,
     };
@@ -102,7 +110,7 @@ const UploadPhotoPage = () => {
                   // @ts-ignore
                   onChange={(e) => setFavourite(e.target.value)}
                 >
-                  {categories?.data.map((item: GameCategoriesTypes) => {
+                  {categories?.map((item: CategoryTypes) => {
                     return (
                       <option value={item._id} key={item._id}>
                         {item.name}

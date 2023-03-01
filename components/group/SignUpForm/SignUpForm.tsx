@@ -3,13 +3,24 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getPlayers } from "../../../helpers/auth";
+import { PlayerTypes } from "../../../helpers/data-types";
+
+const initialValue = [
+  {
+    email: "",
+    favorite: "",
+    image: "",
+    password: "",
+    username: "",
+  },
+];
 
 const SignUpForm = () => {
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState<PlayerTypes[]>(initialValue);
   const router = useRouter();
 
   const getPlayerList = useCallback(async () => {
@@ -29,7 +40,9 @@ const SignUpForm = () => {
       password,
     };
 
-    const playerList = players.find((item: any) => item.email === email);
+    const playerList = players.find(
+      (item: PlayerTypes) => item.email === email
+    );
 
     if (playerList) {
       toast.error("Account already exist!");

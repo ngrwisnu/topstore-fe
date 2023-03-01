@@ -56,7 +56,7 @@ export const setOrder = async (checkoutData: CheckoutDataTypes) => {
 
     const response = await data.json();
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };

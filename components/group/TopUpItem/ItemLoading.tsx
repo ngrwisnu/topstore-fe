@@ -1,7 +1,7 @@
 import React from "react";
 
-const ItemLoading = ({ type }: any) => {
-  if (type === "desktop") {
+const ItemLoading = (props: { [key: string]: string }) => {
+  if (props.type === "desktop") {
     return (
       <div className="pb-50 d-md-block d-none">
         <h2 className="mb-10 mt-10 skeleton-text-lg"></h2>
