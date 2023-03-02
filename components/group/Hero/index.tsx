@@ -16,7 +16,7 @@ const Hero = () => {
               <span className="underline-blue">Experience</span> in Gaming
             </h1>
             <p className="mt-30 mb-40 text-lg color-palette-1">
-              Kami menyediakan jutaan cara untuk membantu
+              Kami menyediakan banyak cara untuk membantu
               <br className="d-md-block d-none" /> players menjadi pemenang
               sejati
             </p>
