@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../../components/group/Navbar";
@@ -38,6 +39,12 @@ const DetailPage = () => {
   return (
     // <!-- Detail Content -->
     <>
+      <Head>
+        <title>TopStore | TopUp</title>
+        <meta name="description" content="TopStore's TopUp page" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navbar />
       <section className="detail pt-lg-60 pb-50">
         <div className="container-xxl container-fluid">
