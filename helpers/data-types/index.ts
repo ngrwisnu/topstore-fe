@@ -11,6 +11,15 @@ export interface CheckoutDataTypes {
   name: string;
   userAccount: string;
 }
+
+export interface FetchAPIProps {
+  url: string;
+  method?: string;
+  headers?: {
+    [key: string]: string;
+  };
+  data?: any;
+}
 export interface GameItemTypes {
   _id?: string;
   name?: string;

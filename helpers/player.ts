@@ -1,4 +1,5 @@
 import { CheckoutDataTypes } from "./data-types";
+import { useFetchAPI } from "./hooks";
 
 const MOCK_API = process.env.NEXT_PUBLIC_MOCK_SERVER;
 const API_VERSION = "api/v1";
@@ -6,56 +7,58 @@ const URL = process.env.NEXT_PUBLIC_SERVER;
 const ENDPOINT = "orders.json";
 
 export const getGameFeature = async () => {
-  const API_ENDPOINT = "players/landing-page";
+  const url = `${MOCK_API}/${API_VERSION}/players/landing-page`;
 
-  let data = await fetch(`${MOCK_API}/${API_VERSION}/${API_ENDPOINT}`, {
+  const result = await useFetchAPI({
+    url,
     headers: {
       "x-api-key": `${process.env.NEXT_PUBLIC_KEY}`,
     },
   });
 
-  let response = await data.json();
-  return response;
+  return result;
 };
 
 export const getVoucherFeature = async (id: any) => {
-  const API_ENDPOINT = `players/${id}/detail`;
+  const url = `${MOCK_API}/${API_VERSION}/players/${id}/detail`;
 
-  let data = await fetch(`${MOCK_API}/${API_VERSION}/${API_ENDPOINT}`, {
+  const result = await useFetchAPI({
+    url,
     headers: {
       "x-api-key": `${process.env.NEXT_PUBLIC_KEY}`,
     },
   });
 
-  let response = await data.json();
-  return response;
+  return result;
 };
 
 export const getGameCategories = async () => {
-  const API_ENDPOINT = `players/categories`;
+  const url = `${MOCK_API}/${API_VERSION}/players/categories`;
 
-  let data = await fetch(`${MOCK_API}/${API_VERSION}/${API_ENDPOINT}`, {
+  const result = await useFetchAPI({
+    url,
     headers: {
       "x-api-key": `${process.env.NEXT_PUBLIC_KEY}`,
     },
   });
 
-  let response = await data.json();
-  return response;
+  return result;
 };
 
 export const setOrder = async (checkoutData: CheckoutDataTypes) => {
   try {
-    const data = await fetch(`${URL}/${ENDPOINT}`, {
+    const url = `${URL}/${ENDPOINT}`;
+
+    const result = await useFetchAPI({
+      url,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(checkoutData),
+      data: checkoutData,
     });
 
-    const response = await data.json();
-    return response;
+    return result;
   } catch (error: any) {
     throw new Error(error.message);
   }

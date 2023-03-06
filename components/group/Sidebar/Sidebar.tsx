@@ -13,7 +13,7 @@ const Sidebar = (props: SidebarType) => {
 
   const logoutHandler = () => {
     localStorage.removeItem("player");
-    router.push("/login");
+    router.push("/");
   };
 
   return (

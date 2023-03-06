@@ -1,20 +1,23 @@
 import { PlayerTypes } from "./data-types";
+import { useFetchAPI } from "./hooks";
 
 const URL = process.env.NEXT_PUBLIC_SERVER;
 const ENDPOINT = "players.json";
 
 export const uploadUserSignup = async (userData: PlayerTypes) => {
   try {
-    const data = await fetch(`${URL}/${ENDPOINT}`, {
+    const url = `${URL}/${ENDPOINT}`;
+
+    const result = await useFetchAPI({
+      url,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData),
+      data: userData,
     });
 
-    const response = await data.json();
-    return response;
+    return result;
   } catch (error: any) {
     throw new Error(error.message);
   }
@@ -22,10 +25,13 @@ export const uploadUserSignup = async (userData: PlayerTypes) => {
 
 export const getPlayers = async () => {
   try {
-    const data = await fetch(`${URL}/${ENDPOINT}`);
-    const response = await data.json();
+    const url = `${URL}/${ENDPOINT}`;
 
-    return response;
+    const result = await useFetchAPI({
+      url,
+    });
+
+    return result;
   } catch (error: any) {
     throw new Error(error.message);
   }
