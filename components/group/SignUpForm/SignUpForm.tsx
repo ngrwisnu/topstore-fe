@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getPlayers } from "../../../helpers/auth";
 import { PlayerTypes } from "../../../helpers/data-types";
+import userDataStore from "../../../zustand";
 
 const initialValue = [
   {
@@ -12,6 +13,7 @@ const initialValue = [
     image: "",
     password: "",
     username: "",
+    fullname: "",
   },
 ];
 
@@ -22,6 +24,7 @@ const SignUpForm = () => {
   const [password, setPassword] = useState("");
   const [players, setPlayers] = useState<PlayerTypes[]>(initialValue);
   const router = useRouter();
+  const updateUserData = userDataStore((state: any) => state.updateData);
 
   const getPlayerList = useCallback(async () => {
     const result = await getPlayers();
@@ -47,12 +50,8 @@ const SignUpForm = () => {
     if (playerList) {
       toast.error("Account already exist!");
     } else {
-      if (typeof Storage === undefined) {
-        alert("No storage support!");
-      } else {
-        localStorage.setItem("user-form", JSON.stringify(data));
-        router.push("/upload-photo");
-      }
+      updateUserData(data);
+      router.push("/upload-photo");
     }
   };
 

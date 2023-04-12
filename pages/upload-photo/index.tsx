@@ -3,8 +3,11 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { uploadUserSignup } from "../../helpers/auth";
-import { CategoryTypes, UserSignUpFormTypes } from "../../helpers/data-types";
+import { CategoryTypes, PlayerTypes } from "../../helpers/data-types";
 import { getGameCategories } from "../../helpers/player";
+import userDataStore from "../../zustand";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 const initialCategories = [
   {
@@ -18,10 +21,12 @@ const UploadPhotoPage = () => {
   const [categories, setCategories] =
     useState<CategoryTypes[]>(initialCategories);
   const [favourite, setFavourite] = useState("");
-  const [image, setImage] = useState(null);
   const [avatar, setAvatar] = useState("/icon/avatar-profile.svg");
-  const [userData, setUserData] = useState<UserSignUpFormTypes | null>(null);
   const router = useRouter();
+
+  // Zustand
+  const currentUserData = userDataStore((state: any) => state.data);
+  const resetUserData = userDataStore((state: any) => state.resetData);
 
   const gameCategories = useCallback(async () => {
     const data = await getGameCategories();
@@ -32,35 +37,40 @@ const UploadPhotoPage = () => {
 
   useEffect(() => {
     gameCategories();
-
-    async function getLocalStorage() {
-      const userData = await localStorage.getItem("user-form");
-      // @ts-ignore
-      setUserData(JSON.parse(userData));
-    }
-    getLocalStorage();
   }, []);
 
   const submitHandler = async () => {
-    const data = {
-      username: userData!.username,
-      email: userData!.email,
-      password: userData!.password,
+    // * create account in firebase auth
+    const createUser = await createUserWithEmailAndPassword(
+      auth,
+      currentUserData.email,
+      currentUserData.password
+    );
+    const user = createUser.user;
+
+    // * create user database
+    const data: PlayerTypes = {
+      fullname: currentUserData.fullname as string,
+      username: currentUserData.username as string,
+      email: user.email!,
       image: avatar,
       favorite: favourite,
+      uid: user.uid,
+      // @ts-ignore
+      createdAt: user.metadata?.createdAt,
     };
 
-    await uploadUserSignup(data);
-    localStorage.removeItem("user-form");
+    // * post user data to database
+    uploadUserSignup(data);
 
     router.push("/sign-up-success");
+    resetUserData();
   };
 
   const changeHandler = (event: any) => {
     const img = event.target.files[0];
     // @ts-ignore
     setAvatar(URL.createObjectURL(img));
-    return setImage(img);
   };
 
   return (
@@ -96,12 +106,12 @@ const UploadPhotoPage = () => {
                     />
                   </div>
                 </div>
-                <h2 className="fw-bold text-xl text-center color-palette-1 m-0">
-                  {userData?.fullname}
+                {/* <h2 className="fw-bold text-xl text-center color-palette-1 m-0">
+                  {currentUserData?.fullname}
                 </h2>
                 <p className="text-lg text-center color-palette-1 m-0">
                   {userData?.email}
-                </p>
+                </p> */}
                 <div className="pt-50 pb-50">
                   <label
                     htmlFor="category"
