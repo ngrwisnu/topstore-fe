@@ -4,6 +4,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getPlayers } from "../../../helpers/auth";
 import { PlayerTypes } from "../../../helpers/data-types";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../config/firebase";
 
 const initialValue = [
   {
@@ -30,26 +32,32 @@ const LoginForm = () => {
     getPlayerList();
   }, []);
 
-  const submitHandler = () => {
-    const playerData = players.find(
-      (item: PlayerTypes) => item.email === email
-    );
+  const submitHandler = async () => {
+    try {
+      //  * Sign in with firebase
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      const user = response.user;
 
-    if (playerData) {
-      if (playerData.password === password) {
+      // * find user with uid
+      const playerData = players.find(
+        (item: PlayerTypes) => item.uid === user.uid
+      );
+
+      // * pass user data into local
+      if (playerData) {
         const data = {
-          username: playerData.username,
-          email: playerData.email,
+          uid: playerData.uid,
+          fullname: playerData.fullname,
           image: playerData.image,
         };
 
         localStorage.setItem("player", JSON.stringify(data));
         router.push("/");
-      } else {
-        toast.error("Wrong Password!");
       }
-    } else {
-      toast.warn("Player Not Found!");
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      toast.error(errorMessage);
     }
   };
 

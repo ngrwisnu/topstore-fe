@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getPlayers } from "../../../helpers/auth";
 import { PlayerTypes } from "../../../helpers/data-types";
-import userDataStore from "../../../zustand";
+import { userDataStore } from "../../../zustand";
 
 const initialValue = [
   {

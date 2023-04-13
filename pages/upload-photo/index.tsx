@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { uploadUserSignup } from "../../helpers/auth";
 import { CategoryTypes, PlayerTypes } from "../../helpers/data-types";
 import { getGameCategories } from "../../helpers/player";
-import userDataStore from "../../zustand";
+import { userDataStore } from "../../zustand";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 

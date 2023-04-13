@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
         crossOrigin="anonymous"
       />
       <Component {...pageProps} />
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={3000} position="top-center" />
     </Fragment>
   );
 }

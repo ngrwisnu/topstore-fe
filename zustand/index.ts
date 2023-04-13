@@ -28,4 +28,4 @@ const userDataStore = create((set) => ({
     }),
 }));
 
-export default userDataStore;
+export { userDataStore };
