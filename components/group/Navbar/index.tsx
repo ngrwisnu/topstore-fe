@@ -30,10 +30,9 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto text-lg gap-lg-0 gap-2">
               <NavLink link="Home" active href="/" />
-              <NavLink link="Games" />
-              <NavLink link="Rewards" />
-              <NavLink link="Discover" />
-              <NavLink link="Global Rank" />
+              <NavLink link="Games" href="#games" />
+              <NavLink link="Rewards" href="#rewards" />
+              <NavLink link="Global Rank" href="#global-rank" />
               {player ? <Auth isLogin /> : <Auth />}
             </ul>
           </div>
