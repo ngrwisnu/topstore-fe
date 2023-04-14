@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { getPlayers } from "../../../helpers/auth";
 import { PlayerTypes } from "../../../helpers/data-types";
 import userDataStore from "../../../zustand";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../config/firebase";
 
 const initialValue = [
   {
@@ -22,36 +24,36 @@ const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [players, setPlayers] = useState<PlayerTypes[]>(initialValue);
+  const [isError, setIsError] = useState(false);
   const router = useRouter();
   const updateUserData = userDataStore((state: any) => state.updateData);
 
-  const getPlayerList = useCallback(async () => {
-    const result = await getPlayers();
-    setPlayers(Object.values(result));
-  }, [getPlayers]);
+  const submitHandler = async () => {
+    try {
+      // * create account in firebase auth
+      const createUser = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = createUser.user;
 
-  useEffect(() => {
-    getPlayerList();
-  }, []);
+      // * set data to update zustand
+      const data = {
+        fullname: fullname,
+        username: username,
+        email: user.email!,
+        uid: user.uid,
+        // @ts-ignore
+        createdAt: user.metadata?.createdAt,
+      };
 
-  const submitHandler = () => {
-    const data = {
-      fullname,
-      username,
-      email,
-      password,
-    };
-
-    const playerList = players.find(
-      (item: PlayerTypes) => item.email === email
-    );
-
-    if (playerList) {
-      toast.error("Account already exist!");
-    } else {
       updateUserData(data);
       router.push("/upload-photo");
+    } catch (error: any) {
+      setIsError(true);
+      const errorMessage = error.message;
+      toast.error(errorMessage);
     }
   };
 
@@ -108,7 +110,12 @@ const SignUpForm = () => {
         </label>
         <input
           type="email"
-          className="form-control rounded-pill text-lg"
+          className={`
+            form-control 
+            rounded-pill 
+            text-lg 
+            ${isError ? "border-danger" : "border-dark"}
+          `}
           id="email"
           name="email"
           aria-describedby="email"

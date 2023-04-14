@@ -6,8 +6,6 @@ import { uploadUserSignup } from "../../helpers/auth";
 import { CategoryTypes, PlayerTypes } from "../../helpers/data-types";
 import { getGameCategories } from "../../helpers/player";
 import userDataStore from "../../zustand";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
 
 const initialCategories = [
   {
@@ -40,24 +38,11 @@ const UploadPhotoPage = () => {
   }, []);
 
   const submitHandler = async () => {
-    // * create account in firebase auth
-    const createUser = await createUserWithEmailAndPassword(
-      auth,
-      currentUserData.email,
-      currentUserData.password
-    );
-    const user = createUser.user;
-
     // * create user database
     const data: PlayerTypes = {
-      fullname: currentUserData.fullname as string,
-      username: currentUserData.username as string,
-      email: user.email!,
+      ...currentUserData,
       image: avatar,
       favorite: favourite,
-      uid: user.uid,
-      // @ts-ignore
-      createdAt: user.metadata?.createdAt,
     };
 
     // * post user data to database
