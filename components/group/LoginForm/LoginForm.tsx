@@ -6,6 +6,7 @@ import { getPlayers } from "../../../helpers/auth";
 import { PlayerTypes } from "../../../helpers/data-types";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../config/firebase";
+import { loggedInUser } from "../../../zustand";
 
 const initialValue = [
   {
@@ -22,6 +23,9 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+  // zustand
+  const addLoggedInUser = loggedInUser((state: any) => state.updateData);
 
   const getPlayerList = useCallback(async () => {
     const result = await getPlayers();
@@ -45,13 +49,10 @@ const LoginForm = () => {
 
       // * pass user data into local
       if (playerData) {
-        const data = {
-          uid: playerData.uid,
-          fullname: playerData.fullname,
-          image: playerData.image,
-        };
+        const data = { ...playerData };
+        addLoggedInUser(data);
 
-        localStorage.setItem("player", JSON.stringify(data));
+        localStorage.setItem("player", JSON.stringify(data.createdAt));
         router.push("/");
       }
     } catch (error: any) {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { loggedInUser } from "../../../zustand";
 
 type LoginType = {
   isLogin?: boolean;
@@ -11,7 +12,12 @@ const Auth = (props: LoginType) => {
   const { isLogin } = props;
   const router = useRouter();
 
+  // zustand
+  const statusUser = loggedInUser((state: any) => state.data);
+  const resetUser = loggedInUser((state: any) => state.resetData);
+
   const logoutHandler = () => {
+    resetUser();
     localStorage.removeItem("player");
     router.reload();
   };
@@ -30,7 +36,7 @@ const Auth = (props: LoginType) => {
             aria-expanded="false"
           >
             <Image
-              src="/img/avatar-1.png"
+              src={statusUser.image}
               className="rounded-circle"
               width="40"
               height="40"
