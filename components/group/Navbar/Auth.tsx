@@ -1,20 +1,40 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type LoginType = {
   isLogin?: boolean;
 };
 
+type PlayerDataType = {
+  fullname: string;
+  uid: string;
+  image: string;
+};
+
 const Auth = (props: LoginType) => {
   const { isLogin } = props;
+
+  const [playerData, setPlayerData] = useState<PlayerDataType>({
+    fullname: "",
+    uid: "",
+    image: "",
+  });
   const router = useRouter();
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("player")!);
+
+    setPlayerData(data);
+  }, []);
 
   const logoutHandler = () => {
     localStorage.removeItem("player");
     router.reload();
   };
+
+  const imgUrl: any = URL.revokeObjectURL(playerData?.image);
 
   if (isLogin) {
     return (
@@ -30,7 +50,7 @@ const Auth = (props: LoginType) => {
             aria-expanded="false"
           >
             <Image
-              src="/img/avatar-1.png"
+              src={imgUrl || "/img/placeholder.jpg"}
               className="rounded-circle"
               width="40"
               height="40"

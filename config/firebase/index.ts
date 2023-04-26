@@ -1,20 +1,21 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB74MkknFxTQBhyQKYVC5wIx4IHALfaugU",
-  authDomain: "topstore-7129b.firebaseapp.com",
-  databaseURL:
-    "https://topstore-7129b-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "topstore-7129b",
-  storageBucket: "topstore-7129b.appspot.com",
-  messagingSenderId: "1076885348454",
-  appId: "1:1076885348454:web:99a0fe36c88d0ef5220da7",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_DB_URL,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MSG_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
+const storage = getStorage(app);
 
-export { auth };
+export { auth, storage };

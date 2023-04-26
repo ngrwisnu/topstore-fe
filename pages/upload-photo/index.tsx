@@ -6,6 +6,8 @@ import { uploadUserSignup } from "../../helpers/auth";
 import { CategoryTypes, PlayerTypes } from "../../helpers/data-types";
 import { getGameCategories } from "../../helpers/player";
 import { userDataStore } from "../../zustand";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "../../config/firebase";
 
 const initialCategories = [
   {
@@ -20,6 +22,8 @@ const UploadPhotoPage = () => {
     useState<CategoryTypes[]>(initialCategories);
   const [favourite, setFavourite] = useState("");
   const [avatar, setAvatar] = useState("/icon/avatar-profile.svg");
+  const [imageUrl, setImageUrl] = useState("");
+  const [uploadImage, setUploadImage] = useState(false);
   const router = useRouter();
 
   // Zustand
@@ -41,11 +45,10 @@ const UploadPhotoPage = () => {
     // * create user database
     const data: PlayerTypes = {
       ...currentUserData,
-      image: avatar,
+      image: imageUrl,
       favorite: favourite,
     };
 
-    // * post user data to database
     uploadUserSignup(data);
 
     router.push("/sign-up-success");
@@ -54,8 +57,35 @@ const UploadPhotoPage = () => {
 
   const changeHandler = (event: any) => {
     const img = event.target.files[0];
+    setAvatar(img);
+
     // @ts-ignore
-    setAvatar(URL.createObjectURL(img));
+    const imgName = new Date().getTime() + img.name;
+
+    const storageRef = ref(storage, imgName);
+    // @ts-ignore
+    const uploadTask = uploadBytesResumable(storageRef, img);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (progress < 100) {
+          setUploadImage(true);
+        } else {
+          setUploadImage(false);
+        }
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImageUrl(downloadURL);
+        });
+      }
+    );
   };
 
   return (
@@ -75,7 +105,7 @@ const UploadPhotoPage = () => {
                   <div className="image-upload text-center">
                     <label htmlFor="avatar">
                       <Image
-                        src={avatar}
+                        src={imageUrl || avatar}
                         width={120}
                         height={120}
                         alt="upload photo"
@@ -129,8 +159,9 @@ const UploadPhotoPage = () => {
                   className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
                   type="button"
                   onClick={submitHandler}
+                  disabled={uploadImage}
                 >
-                  Create My Account
+                  {uploadImage ? "Uploading..." : "Create My Account"}
                 </button>
 
                 <a
