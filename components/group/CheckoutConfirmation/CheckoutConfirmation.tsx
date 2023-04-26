@@ -1,12 +1,19 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { setOrder } from "../../../helpers/player";
+import { loggedInUser } from "../../../zustand";
 
 const CheckoutConfirmation = () => {
   const [isPaid, setIsPaid] = useState(false);
   const router = useRouter();
+
+  const user = loggedInUser((state: any) => state.data);
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   const onSubmit = async () => {
     const checkoutDataLocal = localStorage.getItem("topup-data");
@@ -16,11 +23,8 @@ const CheckoutConfirmation = () => {
       toast.warn("Complete the payment first!");
     } else {
       const data = {
-        voucher: checkoutData.voucherDetails.category._id,
-        nominal: checkoutData.nominalTopup.id,
-        bank: checkoutData.paymentMethod.bankId,
-        name: checkoutData.bankHolderName,
-        userAccount: checkoutData.playerId,
+        ...checkoutData,
+        status: "Pending",
       };
 
       const response = await setOrder(data);
