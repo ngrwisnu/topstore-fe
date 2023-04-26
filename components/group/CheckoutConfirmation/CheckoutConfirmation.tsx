@@ -25,6 +25,7 @@ const CheckoutConfirmation = () => {
       const data = {
         ...checkoutData,
         status: "Pending",
+        uid: user.uid,
       };
 
       const response = await setOrder(data);
