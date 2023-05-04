@@ -8,7 +8,8 @@ const Games = () => {
 
   const getGameList = useCallback(async () => {
     const data = await getGameFeature();
-    setGameList(data);
+    console.log(data);
+    setGameList(data.data);
   }, [getGameFeature]);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const Games = () => {
           className="d-flex flex-row flex-lg-wrap overflow-setting justify-content-lg-between gap-lg-3 gap-4"
           data-aos="fade-up"
         >
-          {gameList.data?.map((item: GameItemTypes) => (
+          {gameList.map((item: GameItemTypes) => (
             <GamesCard
               key={item._id}
               id={item._id}
