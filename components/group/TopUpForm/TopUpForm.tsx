@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { NominalTopUpProps, PaymentProps } from "../../../helpers/data-types";
+import {
+  NominalTopUpProps,
+  PaymentProps,
+  TopUpFormProps,
+} from "../../../helpers/data-types";
 import NominalItem from "./NominalItem";
 import PaymentItem from "./PaymentItem";
 
@@ -19,7 +23,8 @@ const initialPaymentMethod = {
   bankName: "",
 };
 
-const TopUpForm = (props: any) => {
+const TopUpForm = (props: TopUpFormProps) => {
+  const { payments, nominals } = props;
   const [playerId, setPlayerId] = useState("");
   const [bankHolderName, setBankHolderName] = useState("");
   const [nominalTopup, setNominalTopup] = useState(initialNominal);
@@ -34,31 +39,32 @@ const TopUpForm = (props: any) => {
     setPaymentMethod(data);
   };
 
-  const continueToCheckout = () => {
-    if (
-      nominalTopup === initialNominal ||
-      paymentMethod === initialPaymentMethod ||
-      playerId === "" ||
-      bankHolderName === ""
-    ) {
-      toast.warn("Please complete the field!");
-    } else {
-      const data = {
-        voucherDetails: {
-          category: props.voucherDetails.category,
-          name: props.voucherDetails.name,
-          thumbnail: props.voucherDetails.thumbnail,
-        },
-        playerId,
-        bankHolderName,
-        nominalTopup,
-        paymentMethod,
-      };
+  // const continueToCheckout = () => {
+  //   if (
+  //     nominalTopup === initialNominal ||
+  //     paymentMethod === initialPaymentMethod ||
+  //     playerId === "" ||
+  //     bankHolderName === ""
+  //   ) {
+  //     toast.warn("Please complete the field!");
+  //   } else {
+  //     const data = {
+  //       voucherDetails: {
+  //         category: props.voucherDetails.category,
+  //         name: props.voucherDetails.name,
+  //         thumbnail: props.voucherDetails.thumbnail,
+  //       },
+  //       playerId,
+  //       bankHolderName,
+  //       nominalTopup,
+  //       paymentMethod,
+  //     };
 
-      localStorage.setItem("topup-data", JSON.stringify(data));
-      router.push("/checkout");
-    }
-  };
+  //     localStorage.setItem("topup-data", JSON.stringify(data));
+  //     router.push("/checkout");
+  //   }
+  // };
+
   return (
     <form action="./checkout.html" method="POST">
       <div className="pt-md-50 pt-30">
@@ -86,48 +92,18 @@ const TopUpForm = (props: any) => {
           Nominal Top Up
         </p>
         <div className="row justify-content-between">
-          <NominalItem
-            id="603152e0a4dd027eefaccf61"
-            coinName="GOLD"
-            coinQuantity={50}
-            price={1250000}
-            onChange={nominalChangeHandler}
-          />
-          <NominalItem
-            id="603152e0a4dd027eefaccf62"
-            coinName="GOLD"
-            coinQuantity={100}
-            price={2250000}
-            onChange={nominalChangeHandler}
-          />
-          <NominalItem
-            id="603152e0a4dd027eefaccf63"
-            coinName="GOLD"
-            coinQuantity={125}
-            price={3250000}
-            onChange={nominalChangeHandler}
-          />
-          <NominalItem
-            id="603152e0a4dd027eefaccf64"
-            coinName="GOLD"
-            coinQuantity={500}
-            price={5000000}
-            onChange={nominalChangeHandler}
-          />
-          <NominalItem
-            id="603152e0a4dd027eefaccf65"
-            coinName="GOLD"
-            coinQuantity={225}
-            price={4250000}
-            onChange={nominalChangeHandler}
-          />
-          <NominalItem
-            id="603152e0a4dd027eefaccf66"
-            coinName="GOLD"
-            coinQuantity={225}
-            price={4250000}
-            onChange={nominalChangeHandler}
-          />
+          {nominals?.map((item) => {
+            return (
+              <NominalItem
+                id={item._id}
+                coinName={item.coinName}
+                coinQuantity={item.coinQuantity}
+                price={item.price}
+                onChange={nominalChangeHandler}
+                key={item._id}
+              />
+            );
+          })}
           <div className="col-lg-4 col-sm-6">{/* <!-- Blank --> */}</div>
         </div>
       </div>
@@ -137,19 +113,19 @@ const TopUpForm = (props: any) => {
         </p>
         <fieldset id="paymentMethod">
           <div className="row justify-content-between">
-            <PaymentItem
-              bankId="60ae2431196ccd27e6587ab3"
-              type="VISA"
-              bankName="Credit card"
-              onChange={paymentChangeHandler}
-            />
-            <PaymentItem
-              bankId="60ae2431196ccd27e6587ab1"
-              type="Tranfer"
-              bankName="BCA"
-              onChange={paymentChangeHandler}
-            />
-
+            {payments?.map((payment) => {
+              return payment.banks?.map((bank) => {
+                return (
+                  <PaymentItem
+                    bankId={bank._id}
+                    type={payment.type}
+                    bankName={bank.bankName}
+                    onChange={paymentChangeHandler}
+                    key={bank._id}
+                  />
+                );
+              });
+            })}
             <div className="col-lg-4 col-sm-6">{/* <!-- Blank --> */}</div>
           </div>
         </fieldset>
@@ -174,7 +150,7 @@ const TopUpForm = (props: any) => {
       </div>
       <div className="d-sm-block d-flex flex-column w-100">
         <button
-          onClick={continueToCheckout}
+          onClick={() => {}}
           type="button"
           className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg"
         >

@@ -21,7 +21,8 @@ const DetailPage = () => {
   const getVoucherDetails = useCallback(
     async (id: any) => {
       const data = await getVoucherFeature(id);
-      setVoucherDetails(data);
+      console.log(data.data);
+      setVoucherDetails(data.data);
     },
     [getVoucherFeature]
   );
@@ -50,13 +51,16 @@ const DetailPage = () => {
           </div>
           <div className="row">
             <div className="col-xl-3 col-lg-4 col-md-5 pb-30 pb-md-0 pe-md-25 text-md-start">
-              <TopUpItem data={voucherDetails.data} type="mobile" />
+              <TopUpItem data={voucherDetails.details} type="mobile" />
             </div>
             <div className="col-xl-9 col-lg-8 col-md-7 ps-md-25">
               {/* <!-- Desktop: Game title --> */}
-              <TopUpItem data={voucherDetails.data} type="desktop" />
+              <TopUpItem data={voucherDetails.details} type="desktop" />
               <hr />
-              <TopUpForm voucherDetails={voucherDetails.data} />
+              <TopUpForm
+                payments={voucherDetails.payments}
+                nominals={voucherDetails.details?.nominals}
+              />
             </div>
           </div>
         </div>

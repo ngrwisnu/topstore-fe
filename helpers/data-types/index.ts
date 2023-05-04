@@ -37,3 +37,25 @@ export interface CheckoutDataTypes {
   name: string;
   userAccount: string;
 }
+
+export interface BankType {
+  _id: string;
+  bankName: string;
+}
+export interface PaymentTypes {
+  _id: string;
+  banks: BankType[];
+  type: string;
+}
+
+export interface NominalTypes {
+  _id: string;
+  coinName: string;
+  coinQuantity: number;
+  price: number;
+}
+
+export interface TopUpFormProps {
+  payments: PaymentTypes[];
+  nominals: NominalTypes[];
+}
