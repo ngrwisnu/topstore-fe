@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import Input, { InputType } from "../../../../components/atom/Input/Input";
+import Input, { InputType } from "../../../../components/atom/Input/InputField";
 
 export default {
   title: "Components/Atoms/Input",

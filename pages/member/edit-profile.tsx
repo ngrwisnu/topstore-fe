@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import Input from "../../components/atom/Input/Input";
+import InputField from "../../components/atom/Input/InputField";
 import Sidebar from "../../components/group/Sidebar/Sidebar";
 
 const EditProfilePage = () => {
@@ -48,23 +48,41 @@ const EditProfilePage = () => {
                 </div>
               </div>
               <div className="pt-30">
-                <Input
+                <label
+                  htmlFor="name"
+                  className="form-label text-lg fw-medium color-palette-1 mb-10"
+                >
+                  Fullname
+                </label>
+                <InputField
                   id="name"
-                  label="Full Name"
+                  type="text"
                   placeholder="Enter your name"
                 />
               </div>
               <div className="pt-30">
-                <Input
+                <label
+                  htmlFor="email"
+                  className="form-label text-lg fw-medium color-palette-1 mb-10"
+                >
+                  Email Address
+                </label>
+                <InputField
                   id="email"
-                  label="Email Address"
+                  type="email"
                   placeholder="Enter your email"
                 />
               </div>
               <div className="pt-30">
-                <Input
+                <label
+                  htmlFor="phone"
+                  className="form-label text-lg fw-medium color-palette-1 mb-10"
+                >
+                  Phone No.
+                </label>
+                <InputField
                   id="phone"
-                  label="Phone"
+                  type="text"
                   placeholder="Enter your phone number"
                 />
               </div>

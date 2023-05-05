@@ -20,16 +20,11 @@ export const getVoucherFeature = async (id: any) => {
 };
 
 export const getGameCategories = async () => {
-  const API_ENDPOINT = `players/categories`;
+  const API_ENDPOINT = `players/category`;
 
-  let data = await fetch(`${MOCK_API}/${API_VERSION}/${API_ENDPOINT}`, {
-    headers: {
-      "x-api-key": `${process.env.NEXT_PUBLIC_KEY}`,
-    },
-  });
+  let response = await axios.get(`${API_ROOT}/${API_VERSION}/${API_ENDPOINT}`);
 
-  let response = await data.json();
-  return response;
+  return response.data;
 };
 
 export const setOrder = async (checkoutData: CheckoutDataTypes) => {

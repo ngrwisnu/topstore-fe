@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getPlayers } from "../../../helpers/auth";
+import { useUserFormStore } from "../../../zustand";
+import InputField from "../../atom/Input/InputField";
 
 const SignUpForm = () => {
   const [fullname, setFullname] = useState("");
@@ -11,6 +13,8 @@ const SignUpForm = () => {
   const [password, setPassword] = useState("");
   const [players, setPlayers] = useState([]);
   const router = useRouter();
+
+  const user = useUserFormStore((state: any) => state.addSignUpData);
 
   const getPlayerList = useCallback(async () => {
     const result = await getPlayers();
@@ -21,7 +25,7 @@ const SignUpForm = () => {
     getPlayerList();
   }, []);
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     const data = {
       fullname,
       username,
@@ -37,7 +41,7 @@ const SignUpForm = () => {
       if (typeof Storage === undefined) {
         alert("No storage support!");
       } else {
-        localStorage.setItem("user-form", JSON.stringify(data));
+        await user(data);
         router.push("/upload-photo");
       }
     }
@@ -56,15 +60,12 @@ const SignUpForm = () => {
         >
           Full Name
         </label>
-        <input
+        <InputField
           type="text"
-          className="form-control rounded-pill text-lg"
           id="name"
-          name="name"
-          aria-describedby="name"
           placeholder="Enter your name"
           value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
+          onchange={setFullname}
           required
         />
       </div>
@@ -75,15 +76,12 @@ const SignUpForm = () => {
         >
           Username
         </label>
-        <input
+        <InputField
           type="text"
-          className="form-control rounded-pill text-lg"
           id="username"
-          name="username"
-          aria-describedby="username"
           placeholder="Enter your username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onchange={setUsername}
           required
         />
       </div>
@@ -94,15 +92,12 @@ const SignUpForm = () => {
         >
           Email Address
         </label>
-        <input
+        <InputField
           type="email"
-          className="form-control rounded-pill text-lg"
           id="email"
-          name="email"
-          aria-describedby="email"
           placeholder="Enter your email address"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onchange={setEmail}
           required
         />
       </div>
@@ -113,15 +108,12 @@ const SignUpForm = () => {
         >
           Password
         </label>
-        <input
+        <InputField
           type="password"
-          className="form-control rounded-pill text-lg"
           id="password"
-          name="password"
-          aria-describedby="password"
           placeholder="Your password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onchange={setPassword}
           required
         />
       </div>
