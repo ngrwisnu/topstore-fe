@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { getPlayers } from "../../../helpers/auth";
+import React, { useState } from "react";
 import { useUserFormStore } from "../../../zustand";
 import InputField from "../../atom/Input/InputField";
 
@@ -11,19 +9,9 @@ const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [players, setPlayers] = useState([]);
   const router = useRouter();
 
   const user = useUserFormStore((state: any) => state.addSignUpData);
-
-  const getPlayerList = useCallback(async () => {
-    const result = await getPlayers();
-    setPlayers(Object.values(result));
-  }, [getPlayers]);
-
-  useEffect(() => {
-    getPlayerList();
-  }, []);
 
   const submitHandler = async () => {
     const data = {
@@ -33,18 +21,8 @@ const SignUpForm = () => {
       password,
     };
 
-    const playerList = players.find((item: any) => item.email === email);
-
-    if (playerList) {
-      toast.error("Account already exist!");
-    } else {
-      if (typeof Storage === undefined) {
-        alert("No storage support!");
-      } else {
-        await user(data);
-        router.push("/upload-photo");
-      }
-    }
+    await user(data);
+    router.push("/upload-photo");
   };
 
   return (

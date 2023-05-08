@@ -1,30 +1,14 @@
-const URL = process.env.NEXT_PUBLIC_SERVER;
+import axios from "axios";
+
+const API_ROOT = process.env.NEXT_PUBLIC_LOCAL_SERVER;
 const ENDPOINT = "players.json";
 
 export const uploadUserSignup = async (userData: any) => {
   try {
-    const data = await fetch(`${URL}/${ENDPOINT}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-
-    const response = await data.json();
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getPlayers = async () => {
-  try {
-    const data = await fetch(`${URL}/${ENDPOINT}`);
-    const response = await data.json();
+    const response = await axios.post(`${API_ROOT}/auth/signup`, userData);
 
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    return error.response.data;
   }
 };

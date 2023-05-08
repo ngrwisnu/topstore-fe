@@ -5,6 +5,7 @@ import { uploadUserSignup } from "../../helpers/auth";
 import { GameCategoriesTypes } from "../../helpers/data-types";
 import { getGameCategories } from "../../helpers/player";
 import { useUserFormStore } from "../../zustand";
+import { toast } from "react-toastify";
 
 const UploadPhotoPage = () => {
   const [categories, setCategories] = useState<any>(null);
@@ -26,13 +27,6 @@ const UploadPhotoPage = () => {
   useEffect(() => {
     console.log(checkUser);
     gameCategories();
-
-    // async function getLocalStorage() {
-    //   const userData = await localStorage.getItem("user-form");
-    //   // @ts-ignore
-    //   setUserData(JSON.parse(userData));
-    // }
-    // getLocalStorage();
   }, []);
 
   const submitHandler = async () => {
@@ -45,10 +39,14 @@ const UploadPhotoPage = () => {
       favorite: favorite,
     };
 
-    // await uploadUserSignup(data);
-    console.log(data);
+    const response = await uploadUserSignup(data);
+    console.log("response: ", response);
 
-    // router.push("/sign-up-success");
+    if (response.error === 1) {
+      toast.error("Email has been registered!");
+    } else {
+      router.push("/sign-up-success");
+    }
   };
 
   const changeHandler = (event: any) => {
