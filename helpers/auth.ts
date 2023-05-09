@@ -1,37 +1,24 @@
-import axios from "axios";
 import { LoginTypes } from "./data-types";
+import callAPI from "./api";
 
 const API_ROOT = process.env.NEXT_PUBLIC_LOCAL_SERVER;
 
-export const uploadUserSignup = async (userData: any) => {
-  try {
-    const response = await axios.post(`${API_ROOT}/auth/signup`, userData);
+export const uploadUserSignup = async (data: any) => {
+  const url = `${API_ROOT}/auth/signup`;
 
-    return response;
-  } catch (error: any) {
-    return error.response.data;
-  }
+  return callAPI({
+    url,
+    method: "POST",
+    data,
+  });
 };
 
-export const setLogin = async (userData: LoginTypes) => {
-  try {
-    const response = await axios.post(`${API_ROOT}/auth/signin`, userData);
+export const setLogin = async (data: LoginTypes) => {
+  const url = `${API_ROOT}/auth/signin`;
 
-    return {
-      error: false,
-      message: "success",
-      data: response.data.data,
-    };
-  } catch (error: any) {
-    console.log("status code: ", error.response.status);
-    if (error.response.status > 300) {
-      const res = {
-        error: true,
-        message: error.response.data,
-        data: null,
-      };
-
-      return res;
-    }
-  }
+  return callAPI({
+    url,
+    method: "POST",
+    data,
+  });
 };

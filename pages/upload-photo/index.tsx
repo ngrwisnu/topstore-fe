@@ -18,10 +18,10 @@ const UploadPhotoPage = () => {
   const checkUser = useUserFormStore((state: any) => state.data);
 
   const gameCategories = useCallback(async () => {
-    const data = await getGameCategories();
-
-    setCategories(data);
-    setFavorite(data.data[0]._id);
+    const response = await getGameCategories();
+    console.log(response);
+    setCategories(response?.data);
+    setFavorite(response?.data[0]._id);
   }, []);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const UploadPhotoPage = () => {
     const response = await uploadUserSignup(data);
     console.log("response: ", response);
 
-    if (response.error === 1) {
+    if (response?.error) {
       toast.error("Email has been registered!");
     } else {
       router.push("/sign-up-success");
@@ -104,7 +104,7 @@ const UploadPhotoPage = () => {
                   // @ts-ignore
                   onChange={(e) => setFavorite(e.target.value)}
                 >
-                  {categories?.data.map((item: GameCategoriesTypes) => {
+                  {categories?.map((item: GameCategoriesTypes) => {
                     return (
                       <option value={item._id} key={item._id}>
                         {item.name}

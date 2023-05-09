@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../../components/group/Navbar";
 import TopUpForm from "../../components/group/TopUpForm/TopUpForm";
 import TopUpItem from "../../components/group/TopUpItem/TopUpItem";
-import { GameItemTypes } from "../../helpers/data-types";
 import { getVoucherFeature } from "../../helpers/player";
 
 const initialValue = {
@@ -20,9 +19,8 @@ const DetailPage = () => {
 
   const getVoucherDetails = useCallback(
     async (id: any) => {
-      const data = await getVoucherFeature(id);
-      console.log(data.data);
-      setVoucherDetails(data.data);
+      const response = await getVoucherFeature(id);
+      setVoucherDetails(response?.data);
     },
     [getVoucherFeature]
   );

@@ -8,8 +8,7 @@ const Games = () => {
 
   const getGameList = useCallback(async () => {
     const data = await getGameFeature();
-    console.log(data);
-    setGameList(data.data);
+    setGameList(data?.data);
   }, [getGameFeature]);
 
   useEffect(() => {
@@ -30,9 +29,13 @@ const Games = () => {
           {gameList.map((item: GameItemTypes) => (
             <GamesCard
               key={item._id}
+              // @ts-ignore
               id={item._id}
+              // @ts-ignore
               title={item.name}
+              // @ts-ignore
               category={item?.category?.name}
+              // @ts-ignore
               thumbnail={item.thumbnail}
             />
           ))}

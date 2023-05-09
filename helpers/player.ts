@@ -1,30 +1,32 @@
+import callAPI from "./api";
 import { CheckoutDataTypes } from "./data-types";
-import axios from "axios";
 
 const API_ROOT = process.env.NEXT_PUBLIC_LOCAL_SERVER;
 const API_VERSION = "api/v1";
 const API_ENDPOINT = "players/landingpage";
 
 export const getGameFeature = async () => {
-  let response = await axios.get(`${API_ROOT}/${API_VERSION}/${API_ENDPOINT}`);
+  let url = `${API_ROOT}/${API_VERSION}/${API_ENDPOINT}`;
 
-  return response.data;
+  return callAPI({
+    url,
+  });
 };
 
 export const getVoucherFeature = async (id: any) => {
-  const API_ENDPOINT = `players/${id}/detail`;
+  const url = `${API_ROOT}/${API_VERSION}/players/${id}/detail`;
 
-  let response = await axios.get(`${API_ROOT}/${API_VERSION}/${API_ENDPOINT}`);
-
-  return response.data;
+  return callAPI({
+    url,
+  });
 };
 
 export const getGameCategories = async () => {
-  const API_ENDPOINT = `players/category`;
+  let url = `${API_ROOT}/${API_VERSION}/players/category`;
 
-  let response = await axios.get(`${API_ROOT}/${API_VERSION}/${API_ENDPOINT}`);
-
-  return response.data;
+  return callAPI({
+    url,
+  });
 };
 
 export const setOrder = async (checkoutData: CheckoutDataTypes) => {
