@@ -1,42 +1,26 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { getPlayers } from "../../../helpers/auth";
+import { setLogin } from "../../../helpers/auth";
 
 const LoginForm = () => {
-  const [players, setPlayers] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const getPlayerList = useCallback(async () => {
-    const result = await getPlayers();
-    setPlayers(Object.values(result));
-  }, [getPlayers]);
+  const submitHandler = async () => {
+    const data = {
+      email,
+      password,
+    };
 
-  useEffect(() => {
-    getPlayerList();
-  }, []);
+    const response = await setLogin(data);
 
-  const submitHandler = () => {
-    const playerData: any = players.find((item: any) => item.email === email);
-
-    if (playerData) {
-      if (playerData.password === password) {
-        const data = {
-          username: playerData.username,
-          email: playerData.email,
-          image: playerData.image,
-        };
-
-        localStorage.setItem("player", JSON.stringify(data));
-        router.push("/");
-      } else {
-        toast.error("Wrong Password!");
-      }
+    if (response?.error) {
+      toast.error(response.message.message);
     } else {
-      toast.warn("Player Not Found!");
+      router.push("/");
     }
   };
 

@@ -59,3 +59,8 @@ export interface TopUpFormProps {
   payments: PaymentTypes[];
   nominals: NominalTypes[];
 }
+
+export interface LoginTypes {
+  email: string;
+  password: string;
+}
