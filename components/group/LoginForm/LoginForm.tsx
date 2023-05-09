@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { setLogin } from "../../../helpers/auth";
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,11 @@ const LoginForm = () => {
     if (response?.error) {
       toast.error(response.message.message);
     } else {
-      router.push("/");
+      const tk = response?.data.token;
+      const tkBase64 = window.btoa(tk);
+      Cookies.set("tk", tkBase64, { expires: 1 });
+
+      // router.push("/");
     }
   };
 
