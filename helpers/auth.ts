@@ -3,7 +3,7 @@ import callAPI from "./api";
 
 const API_ROOT = process.env.NEXT_PUBLIC_LOCAL_SERVER;
 
-export const uploadUserSignup = async (data: any) => {
+export const uploadUserSignup = async (data: FormData) => {
   const url = `${API_ROOT}/auth/signup`;
 
   return callAPI({

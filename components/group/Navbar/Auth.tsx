@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const Auth = () => {
   const [isLogin, setIslogin] = useState(false);
@@ -15,7 +15,7 @@ const Auth = () => {
 
     if (tk) {
       const beautyTk = window.atob(tk!);
-      const payload = jwt_decode(beautyTk);
+      const payload = jwtDecode(beautyTk);
       // @ts-ignore
       const user = payload?.player;
       console.log(user);
@@ -25,8 +25,11 @@ const Auth = () => {
     }
   });
 
+  console.log(isLogin);
+
   const logoutHandler = () => {
-    localStorage.removeItem("player");
+    Cookies.remove("tk");
+    setIslogin(false);
     router.reload();
   };
 
