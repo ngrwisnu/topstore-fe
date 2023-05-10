@@ -64,3 +64,16 @@ export interface LoginTypes {
   email: string;
   password: string;
 }
+
+export interface PlayerTypes {
+  id: string;
+  username: string;
+  email: string;
+  name: string;
+  avatar: string;
+}
+
+export interface PayloadTypes {
+  player: PlayerTypes;
+  iat: number;
+}

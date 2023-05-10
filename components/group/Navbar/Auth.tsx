@@ -18,14 +18,11 @@ const Auth = () => {
       const payload = jwtDecode(beautyTk);
       // @ts-ignore
       const user = payload?.player;
-      console.log(user);
 
       setIslogin(true);
       setAvatar(user.avatar);
     }
   });
-
-  console.log(isLogin);
 
   const logoutHandler = () => {
     Cookies.remove("tk");

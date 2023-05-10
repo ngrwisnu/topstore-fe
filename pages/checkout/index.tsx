@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import CheckoutConfirmation from "../../components/group/CheckoutConfirmation/CheckoutConfirmation";
 import CheckoutDetail from "../../components/group/CheckoutDetail/CheckoutDetail";
 import CheckoutItem from "../../components/group/CheckoutItem/CheckoutItem";
+import jwtDecode from "jwt-decode";
+import { PayloadTypes, PlayerTypes } from "../../helpers/data-types";
 
 const initialData = {
   playerId: "",
@@ -30,22 +32,13 @@ const initialData = {
   },
 };
 
-const CheckoutPage = () => {
+interface CheckoutProps {
+  user: PlayerTypes;
+}
+
+const CheckoutPage = (props: CheckoutProps) => {
   const [topUpData, setTopUpData] = useState(initialData);
   const router = useRouter();
-
-  useEffect(() => {
-    const loginData = localStorage.getItem("player");
-
-    if (!loginData) {
-      router.push("/login");
-    }
-  }, []);
-
-  useEffect(() => {
-    const topUpFromLocal = localStorage.getItem("topup-data");
-    setTopUpData(JSON.parse(topUpFromLocal!));
-  }, []);
 
   return (
     <section className="checkout mx-auto pt-md-100 pb-md-145 pt-30 pb-30">
@@ -76,3 +69,26 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+
+export async function getServerSideProps({ req }: { req: any }) {
+  const tk = req.cookies.tk;
+
+  if (!tk) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const beautyTk = Buffer.from(tk, "base64").toString("ascii");
+  const payload: PayloadTypes = jwtDecode(beautyTk);
+  const user: PlayerTypes = payload.player;
+
+  return {
+    props: {
+      user,
+    },
+  };
+}
