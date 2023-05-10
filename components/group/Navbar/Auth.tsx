@@ -1,15 +1,29 @@
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
 
-type LoginType = {
-  isLogin?: boolean;
-};
-
-const Auth = (props: LoginType) => {
-  const { isLogin } = props;
+const Auth = () => {
+  const [isLogin, setIslogin] = useState(false);
+  const [avatar, setAvatar] = useState("/img/avatar-1.png");
   const router = useRouter();
+
+  useEffect(() => {
+    const tk = Cookies.get("tk");
+
+    if (tk) {
+      const beautyTk = window.atob(tk!);
+      const payload = jwt_decode(beautyTk);
+      // @ts-ignore
+      const user = payload?.player;
+      console.log(user);
+
+      setIslogin(true);
+      setAvatar(user.avatar);
+    }
+  });
 
   const logoutHandler = () => {
     localStorage.removeItem("player");
@@ -30,7 +44,7 @@ const Auth = (props: LoginType) => {
             aria-expanded="false"
           >
             <Image
-              src="/img/avatar-1.png"
+              src={`${process.env.NEXT_PUBLIC_LOCAL_SERVER}/uploads/${avatar}`}
               className="rounded-circle"
               width="40"
               height="40"

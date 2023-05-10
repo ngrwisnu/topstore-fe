@@ -5,20 +5,6 @@ import NavLink from "./NavLink";
 import ToggleNav from "./ToggleNav";
 
 const Navbar = () => {
-  const [player, setPlayer] = useState({
-    email: "",
-    password: "",
-  });
-
-  const getPlayerData = useCallback(async () => {
-    const result = await localStorage.getItem("player");
-    setPlayer(JSON.parse(result!));
-  }, [player]);
-
-  useEffect(() => {
-    getPlayerData();
-  }, []);
-
   return (
     <section className="container">
       <nav className="navbar navbar-expand-lg navbar-light bg-light bg-white pt-lg-40 pb-lg-40 pt-30 pb-50">
@@ -34,7 +20,7 @@ const Navbar = () => {
               <NavLink link="Rewards" />
               <NavLink link="Discover" />
               <NavLink link="Global Rank" />
-              {player ? <Auth isLogin /> : <Auth />}
+              <Auth />
             </ul>
           </div>
         </div>

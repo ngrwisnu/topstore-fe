@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const UploadPhotoPage = () => {
   const [categories, setCategories] = useState<any>(null);
   const [favorite, setFavorite] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [avatar, setAvatar] = useState("/icon/avatar-profile.svg");
   const [userData, setUserData] = useState<any>(null);
   const router = useRouter();
@@ -30,14 +30,13 @@ const UploadPhotoPage = () => {
   }, []);
 
   const submitHandler = async () => {
-    const data = {
-      name: checkUser.fullname,
-      username: checkUser.username,
-      email: checkUser.email,
-      password: checkUser.password,
-      image: image,
-      favorite: favorite,
-    };
+    const data = new FormData();
+    data.append("image", image);
+    data.append("name", checkUser.fullname);
+    data.append("username", checkUser.username);
+    data.append("email", checkUser.email);
+    data.append("password", checkUser.password);
+    data.append("favorite", favorite);
 
     const response = await uploadUserSignup(data);
     console.log("response: ", response);

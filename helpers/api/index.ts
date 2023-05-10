@@ -18,7 +18,6 @@ export default async function callAPI({
       data: response.data.data,
     };
   } catch (error: any) {
-    console.log("status code: ", error.response.status);
     if (error.response.status > 300) {
       const res = {
         error: true,

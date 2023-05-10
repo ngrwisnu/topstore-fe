@@ -25,7 +25,7 @@ const LoginForm = () => {
       const tkBase64 = window.btoa(tk);
       Cookies.set("tk", tkBase64, { expires: 1 });
 
-      // router.push("/");
+      router.push("/");
     }
   };
 
