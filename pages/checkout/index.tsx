@@ -83,7 +83,15 @@ const CheckoutPage = (props: CheckoutProps) => {
 
 export default CheckoutPage;
 
-export async function getServerSideProps({ req }: { req: any }) {
+interface GetServerSideProps {
+  req: {
+    cookies: {
+      tk: string;
+    };
+  };
+}
+
+export async function getServerSideProps({ req }: GetServerSideProps) {
   const tk = req.cookies.tk;
 
   if (!tk) {

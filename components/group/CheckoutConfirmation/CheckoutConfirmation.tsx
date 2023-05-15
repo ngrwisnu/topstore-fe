@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -27,6 +26,7 @@ const CheckoutConfirmation = ({ voucher, topup }: any) => {
       if (response?.error) {
         toast.error(response.message);
       } else {
+        localStorage.clear();
         router.push("/complete-checkout");
       }
     }

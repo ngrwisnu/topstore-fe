@@ -25,6 +25,7 @@ const Auth = () => {
   });
 
   const logoutHandler = () => {
+    localStorage.clear();
     Cookies.remove("tk");
     setIslogin(false);
     router.reload();
