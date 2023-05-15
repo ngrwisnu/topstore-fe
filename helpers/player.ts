@@ -29,19 +29,13 @@ export const getGameCategories = async () => {
   });
 };
 
-export const setOrder = async (checkoutData: CheckoutDataTypes) => {
-  try {
-    const data = await fetch(`${URL}/${ENDPOINT}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(checkoutData),
-    });
+export const setOrder = async (data: CheckoutDataTypes) => {
+  let url = `${API_ROOT}/${API_VERSION}/players/checkout`;
 
-    const response = await data.json();
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  return callAPI({
+    url,
+    method: "POST",
+    data,
+    token: true,
+  });
 };

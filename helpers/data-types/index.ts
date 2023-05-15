@@ -25,14 +25,18 @@ export interface NominalTopUpProps {
 }
 
 export interface PaymentProps {
+  id: string;
   bankId: string;
   type: string;
   bankName: string;
+  name: string;
+  accountNumber: string;
 }
 
 export interface CheckoutDataTypes {
   voucher: string;
   nominal: string;
+  payment: string;
   bank: string;
   name: string;
   userAccount: string;
@@ -41,6 +45,8 @@ export interface CheckoutDataTypes {
 export interface BankType {
   _id: string;
   bankName: string;
+  name: string;
+  noRekening: string;
 }
 export interface PaymentTypes {
   _id: string;
@@ -58,6 +64,7 @@ export interface NominalTypes {
 export interface TopUpFormProps {
   payments: PaymentTypes[];
   nominals: NominalTypes[];
+  gameDetails: GameItemTypes;
 }
 
 export interface LoginTypes {

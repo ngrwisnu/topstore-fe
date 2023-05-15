@@ -3,28 +3,32 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { setOrder } from "../../../helpers/player";
+import { CheckoutDataTypes } from "../../../helpers/data-types";
 
-const CheckoutConfirmation = () => {
+const CheckoutConfirmation = ({ voucher, topup }: any) => {
   const [isPaid, setIsPaid] = useState(false);
   const router = useRouter();
 
   const onSubmit = async () => {
-    const checkoutDataLocal = localStorage.getItem("topup-data");
-    const checkoutData = JSON.parse(checkoutDataLocal!);
-
     if (!isPaid) {
       toast.warn("Complete the payment first!");
     } else {
-      const data = {
-        voucher: checkoutData.voucherDetails.category._id,
-        nominal: checkoutData.nominalTopup.id,
-        bank: checkoutData.paymentMethod.bankId,
-        name: checkoutData.bankHolderName,
-        userAccount: checkoutData.playerId,
+      const data: CheckoutDataTypes = {
+        voucher: voucher._id,
+        nominal: topup.nominal.id,
+        payment: topup.payment.id,
+        bank: topup.payment.bankId,
+        name: topup.bankHolder,
+        userAccount: topup.id,
       };
 
       const response = await setOrder(data);
-      router.push("/complete-checkout");
+
+      if (response?.error) {
+        toast.error(response.message);
+      } else {
+        router.push("/complete-checkout");
+      }
     }
   };
 

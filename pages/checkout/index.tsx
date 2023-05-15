@@ -8,27 +8,21 @@ import jwtDecode from "jwt-decode";
 import { PayloadTypes, PlayerTypes } from "../../helpers/data-types";
 
 const initialData = {
-  playerId: "",
-  bankHolderName: "",
-  nominalTopup: {
+  id: "",
+  bankHolder: "",
+  nominal: {
     id: "",
     coinName: "",
     coinQuantity: 0,
     price: 0,
   },
-  paymentMethod: {
+  payment: {
+    id: "",
     bankId: "",
     bankName: "",
     type: "",
-  },
-  voucherDetails: {
     name: "",
-    thumbnail: "",
-    category: {
-      _id: "",
-      name: "",
-      __v: 0,
-    },
+    accountNumber: "",
   },
 };
 
@@ -38,7 +32,26 @@ interface CheckoutProps {
 
 const CheckoutPage = (props: CheckoutProps) => {
   const [topUpData, setTopUpData] = useState(initialData);
+  const [game, setGame] = useState({
+    thumbnail: "",
+    name: "",
+    category: "",
+    _id: "",
+  });
   const router = useRouter();
+
+  useEffect(() => {
+    const gameDetails = JSON.parse(localStorage.getItem("game-details")!);
+    const topupDetails = JSON.parse(localStorage.getItem("topup-details")!);
+
+    setGame({
+      thumbnail: gameDetails?.thumbnail,
+      name: gameDetails?.name,
+      category: gameDetails?.category.name,
+      _id: gameDetails?._id,
+    });
+    setTopUpData(topupDetails);
+  }, []);
 
   return (
     <section className="checkout mx-auto pt-md-100 pb-md-145 pt-30 pb-30">
@@ -54,15 +67,15 @@ const CheckoutPage = (props: CheckoutProps) => {
             Waktunya meningkatkan cara bermain
           </p>
         </div>
-        <CheckoutItem voucherDetails={topUpData.voucherDetails} />
+        <CheckoutItem voucherDetails={game} />
         <hr />
         <CheckoutDetail
-          pid={topUpData.playerId}
-          nominalTopup={topUpData.nominalTopup}
-          paymentMethod={topUpData.paymentMethod}
-          bankHolderName={topUpData.bankHolderName}
+          pid={topUpData.id}
+          nominal={topUpData.nominal}
+          payment={topUpData.payment}
+          bankHolder={topUpData.bankHolder}
         />
-        <CheckoutConfirmation />
+        <CheckoutConfirmation voucher={game} topup={topUpData} />
       </div>
     </section>
   );

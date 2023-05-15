@@ -24,7 +24,7 @@ const initialPaymentMethod = {
 };
 
 const TopUpForm = (props: TopUpFormProps) => {
-  const { payments, nominals } = props;
+  const { payments, nominals, gameDetails } = props;
   const [playerId, setPlayerId] = useState("");
   const [bankHolderName, setBankHolderName] = useState("");
   const [nominalTopup, setNominalTopup] = useState(initialNominal);
@@ -39,34 +39,30 @@ const TopUpForm = (props: TopUpFormProps) => {
     setPaymentMethod(data);
   };
 
-  // const continueToCheckout = () => {
-  //   if (
-  //     nominalTopup === initialNominal ||
-  //     paymentMethod === initialPaymentMethod ||
-  //     playerId === "" ||
-  //     bankHolderName === ""
-  //   ) {
-  //     toast.warn("Please complete the field!");
-  //   } else {
-  //     const data = {
-  //       voucherDetails: {
-  //         category: props.voucherDetails.category,
-  //         name: props.voucherDetails.name,
-  //         thumbnail: props.voucherDetails.thumbnail,
-  //       },
-  //       playerId,
-  //       bankHolderName,
-  //       nominalTopup,
-  //       paymentMethod,
-  //     };
+  const continueToCheckout = () => {
+    if (
+      nominalTopup === initialNominal ||
+      paymentMethod === initialPaymentMethod ||
+      playerId === "" ||
+      bankHolderName === ""
+    ) {
+      toast.warn("Please complete the field!");
+    } else {
+      const data = {
+        id: playerId,
+        nominal: nominalTopup,
+        payment: paymentMethod,
+        bankHolder: bankHolderName,
+      };
 
-  //     localStorage.setItem("topup-data", JSON.stringify(data));
-  //     router.push("/checkout");
-  //   }
-  // };
+      localStorage.setItem("game-details", JSON.stringify(gameDetails));
+      localStorage.setItem("topup-details", JSON.stringify(data));
+      router.push("/checkout");
+    }
+  };
 
   return (
-    <form action="./checkout.html" method="POST">
+    <form>
       <div className="pt-md-50 pt-30">
         <div className="">
           <label
@@ -117,8 +113,11 @@ const TopUpForm = (props: TopUpFormProps) => {
               return payment.banks?.map((bank) => {
                 return (
                   <PaymentItem
+                    id={payment._id}
                     bankId={bank._id}
                     type={payment.type}
+                    name={bank.name}
+                    accountNumber={bank.noRekening}
                     bankName={bank.bankName}
                     onChange={paymentChangeHandler}
                     key={bank._id}
@@ -150,7 +149,7 @@ const TopUpForm = (props: TopUpFormProps) => {
       </div>
       <div className="d-sm-block d-flex flex-column w-100">
         <button
-          onClick={() => {}}
+          onClick={continueToCheckout}
           type="button"
           className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg"
         >

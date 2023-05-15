@@ -1,15 +1,35 @@
 import axios, { AxiosRequestConfig } from "axios";
+import Cookies from "js-cookie";
+
+interface CallAPIProps extends AxiosRequestConfig {
+  token?: boolean;
+}
 
 export default async function callAPI({
   url,
   method = "GET",
   data,
-}: AxiosRequestConfig) {
+  token,
+}: CallAPIProps) {
   try {
+    let headers = {};
+
+    if (token) {
+      const tk = Cookies.get("tk");
+
+      if (tk) {
+        const jwtTk = atob(tk);
+        headers = {
+          Authorization: `Bearer ${jwtTk}`,
+        };
+      }
+    }
+
     const response = await axios({
       url,
       method,
       data,
+      headers,
     });
 
     return {

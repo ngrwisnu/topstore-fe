@@ -58,6 +58,7 @@ const DetailPage = () => {
               <TopUpForm
                 payments={voucherDetails.payments}
                 nominals={voucherDetails.details?.nominals}
+                gameDetails={voucherDetails.details}
               />
             </div>
           </div>
