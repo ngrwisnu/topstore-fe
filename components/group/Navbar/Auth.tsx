@@ -22,7 +22,7 @@ const Auth = () => {
       setIslogin(true);
       setAvatar(user.avatar);
     }
-  });
+  }, []);
 
   const logoutHandler = () => {
     localStorage.clear();
