@@ -5,15 +5,21 @@ import {
   GetServerSideProps,
   PayloadTypes,
   PlayerTypes,
+  TransactionHistoryTypes,
 } from "../../../helpers/data-types";
 import { getSingleTransaction } from "../../../helpers/dashboard";
 
-const TransactionDetailPage = ({ transaction }) => {
-  console.log(transaction);
+interface TransactionDetailProps {
+  transaction: TransactionHistoryTypes;
+}
+
+const TransactionDetailPage = (props: TransactionDetailProps) => {
+  const { transaction } = props;
+
   return (
     <section className="transactions-detail overflow-auto">
       <Sidebar activeMenu="transactions" />
-      <TransactionDetailContent />
+      <TransactionDetailContent data={transaction} />
     </section>
   );
 };

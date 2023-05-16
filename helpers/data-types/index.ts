@@ -47,7 +47,8 @@ export interface CheckoutDataTypes {
   payment: string;
   bank: string;
   name: string;
-  userAccount: string;
+  accountUser: string;
+  orderId: string;
 }
 
 export interface BankType {
@@ -107,4 +108,25 @@ export interface PaymentHistoryTypes {
   type: string;
   bankName: string;
   noRekening: string;
+}
+
+export interface HistoryUserTypes {
+  name: string;
+  phoneNumber: number;
+}
+
+export interface TransactionHistoryTypes {
+  accountUser: string;
+  category: string;
+  name: string;
+  orderId: string;
+  player: string;
+  status: string;
+  tax: number;
+  user: string;
+  value: number;
+  historyUser: HistoryUserTypes;
+  paymentHistory: PaymentHistoryTypes;
+  voucherTopupHistory: VoucherTopupHistoryTypes;
+  _id: string;
 }

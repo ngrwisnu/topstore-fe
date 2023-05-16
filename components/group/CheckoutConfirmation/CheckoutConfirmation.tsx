@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { setOrder } from "../../../helpers/player";
 import { CheckoutDataTypes } from "../../../helpers/data-types";
 
-const CheckoutConfirmation = ({ voucher, topup }: any) => {
+const CheckoutConfirmation = ({ voucher, topup, orderId }: any) => {
   const [isPaid, setIsPaid] = useState(false);
   const router = useRouter();
 
@@ -18,7 +18,8 @@ const CheckoutConfirmation = ({ voucher, topup }: any) => {
         payment: topup.payment.id,
         bank: topup.payment.bankId,
         name: topup.bankHolder,
-        userAccount: topup.id,
+        accountUser: topup.id,
+        orderId,
       };
 
       const response = await setOrder(data);

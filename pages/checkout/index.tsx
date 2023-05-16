@@ -10,6 +10,7 @@ import {
   PayloadTypes,
   PlayerTypes,
 } from "../../helpers/data-types";
+import randomNumber from "../../utils/randomNumber";
 
 const initialData = {
   id: "",
@@ -42,9 +43,11 @@ const CheckoutPage = (props: CheckoutProps) => {
     category: "",
     _id: "",
   });
+  const [orderId, setOrderId] = useState("#TS0000");
   const router = useRouter();
 
   useEffect(() => {
+    const orderid = randomNumber();
     const gameDetails = JSON.parse(localStorage.getItem("game-details")!);
     const topupDetails = JSON.parse(localStorage.getItem("topup-details")!);
 
@@ -55,6 +58,7 @@ const CheckoutPage = (props: CheckoutProps) => {
       _id: gameDetails?._id,
     });
     setTopUpData(topupDetails);
+    setOrderId(`#TS${orderid}`);
   }, []);
 
   return (
@@ -78,8 +82,13 @@ const CheckoutPage = (props: CheckoutProps) => {
           nominal={topUpData.nominal}
           payment={topUpData.payment}
           bankHolder={topUpData.bankHolder}
+          orderId={orderId}
         />
-        <CheckoutConfirmation voucher={game} topup={topUpData} />
+        <CheckoutConfirmation
+          orderId={orderId}
+          voucher={game}
+          topup={topUpData}
+        />
       </div>
     </section>
   );

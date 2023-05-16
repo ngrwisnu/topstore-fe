@@ -8,10 +8,11 @@ interface CheckoutDetailProps {
   bankHolder: string;
   nominal: NominalTopUpProps;
   payment: PaymentProps;
+  orderId: string;
 }
 
 const CheckoutDetail = (props: CheckoutDetailProps) => {
-  const { pid, bankHolder, nominal, payment } = props;
+  const { pid, bankHolder, nominal, payment, orderId } = props;
 
   const price = nominal.price;
   const tax = price * (10 / 100);
@@ -27,8 +28,7 @@ const CheckoutDetail = (props: CheckoutDetailProps) => {
           Your Game ID <span className="purchase-details">{pid}</span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
-          Order ID{" "}
-          <span className="purchase-details">{`#TS${randomNumber()}`}</span>
+          Order ID <span className="purchase-details">{orderId}</span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
           Item{" "}
