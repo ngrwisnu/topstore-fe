@@ -27,13 +27,7 @@ export async function getServerSideProps({ req }: GetServerSideProps) {
     };
   }
 
-  const beautyTk = Buffer.from(tk, "base64").toString("ascii");
-  const payload: PayloadTypes = jwtDecode(beautyTk);
-  const user: PlayerTypes = payload.player;
-
   return {
-    props: {
-      user,
-    },
+    props: {},
   };
 }

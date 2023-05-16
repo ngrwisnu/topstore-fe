@@ -11,10 +11,11 @@ type TransactionTableRowType = {
   item: string;
   price: number;
   status: string;
+  id: string;
 };
 
 const TableRow = (props: TransactionTableRowType) => {
-  const { image, name, category, item, price, status } = props;
+  const { image, name, category, item, price, status, id } = props;
 
   const formattedPrice = currencyFormatter(price);
 
@@ -64,7 +65,7 @@ const TableRow = (props: TransactionTableRowType) => {
       </td>
       <td>
         <Link
-          href="/member/transactions/detail"
+          href={`/member/transactions/${id}`}
           className="btn btn-status rounded-pill text-sm"
         >
           Details

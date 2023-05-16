@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 interface CallAPIProps extends AxiosRequestConfig {
   token?: boolean;
+  serverTk?: string;
 }
 
 export default async function callAPI({
@@ -10,11 +11,16 @@ export default async function callAPI({
   method = "GET",
   data,
   token,
+  serverTk,
 }: CallAPIProps) {
   try {
     let headers = {};
 
-    if (token) {
+    if (serverTk) {
+      headers = {
+        Authorization: `Bearer ${serverTk}`,
+      };
+    } else if (token) {
       const tk = Cookies.get("tk");
 
       if (tk) {
