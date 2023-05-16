@@ -5,7 +5,11 @@ import CheckoutConfirmation from "../../components/group/CheckoutConfirmation/Ch
 import CheckoutDetail from "../../components/group/CheckoutDetail/CheckoutDetail";
 import CheckoutItem from "../../components/group/CheckoutItem/CheckoutItem";
 import jwtDecode from "jwt-decode";
-import { PayloadTypes, PlayerTypes } from "../../helpers/data-types";
+import {
+  GetServerSideProps,
+  PayloadTypes,
+  PlayerTypes,
+} from "../../helpers/data-types";
 
 const initialData = {
   id: "",
@@ -82,14 +86,6 @@ const CheckoutPage = (props: CheckoutProps) => {
 };
 
 export default CheckoutPage;
-
-interface GetServerSideProps {
-  req: {
-    cookies: {
-      tk: string;
-    };
-  };
-}
 
 export async function getServerSideProps({ req }: GetServerSideProps) {
   const tk = req.cookies.tk;

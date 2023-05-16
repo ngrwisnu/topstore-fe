@@ -18,7 +18,7 @@ export default async function callAPI({
       const tk = Cookies.get("tk");
 
       if (tk) {
-        const jwtTk = atob(tk);
+        const jwtTk = window.atob(tk);
         headers = {
           Authorization: `Bearer ${jwtTk}`,
         };
@@ -32,10 +32,12 @@ export default async function callAPI({
       headers,
     });
 
+    let length = Object.keys(response.data).length;
+
     return {
       error: false,
       message: "success",
-      data: response.data.data,
+      data: length > 1 ? response.data : response.data.data,
     };
   } catch (error: any) {
     if (error.response.status > 300) {

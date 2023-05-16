@@ -7,10 +7,10 @@ import { currencyFormatter } from "../../../utils/currencyFormatter";
 type TransactionTableRowType = {
   image: string;
   name: string;
-  category: "Mobile" | "Desktop";
-  item: number;
+  category: string;
+  item: string;
   price: number;
-  status: "Pending" | "Success" | "Failed";
+  status: string;
 };
 
 const TableRow = (props: TransactionTableRowType) => {
@@ -20,21 +20,25 @@ const TableRow = (props: TransactionTableRowType) => {
 
   const statusColor = cx({
     "float-start icon-status": true,
-    pending: status === "Pending",
-    success: status === "Success",
-    failed: status === "Failed",
+    pending: status === "pending",
+    success: status === "success",
+    failed: status === "failed",
   });
 
   return (
     <tr data-category={status} className="align-middle">
       <th scope="row">
-        <Image
+        <div
           className="float-start me-3 mb-lg-0 mb-3"
-          src={`/img/${image}.png`}
-          width="80"
-          height="60"
-          alt=""
-        />
+          style={{
+            width: "80px",
+            height: "60px",
+            overflow: "hidden",
+            borderRadius: "0.75rem",
+          }}
+        >
+          <Image src={image} width="80" height="80" alt="" />
+        </div>
         <div className="game-title-header">
           <p className="game-title fw-medium text-start color-palette-1 m-0">
             {name}
@@ -45,7 +49,7 @@ const TableRow = (props: TransactionTableRowType) => {
         </div>
       </th>
       <td>
-        <p className="fw-medium color-palette-1 m-0">{item} Gold</p>
+        <p className="fw-medium color-palette-1 m-0">{item}</p>
       </td>
       <td>
         <p className="fw-medium color-palette-1 m-0">{formattedPrice}</p>

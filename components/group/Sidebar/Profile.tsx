@@ -6,7 +6,7 @@ import { PayloadTypes } from "../../../helpers/data-types";
 
 const Profile = () => {
   const [user, setUser] = useState({
-    avatar: "avatar-1.png",
+    avatar: "",
     name: "",
     email: "",
   });
@@ -38,7 +38,10 @@ const Profile = () => {
         }}
       >
         <Image
-          src={`${process.env.NEXT_PUBLIC_LOCAL_SERVER}/uploads/${user.avatar}`}
+          src={
+            `${process.env.NEXT_PUBLIC_LOCAL_SERVER}/uploads/${user.avatar}` ||
+            "/img/avatar-1.png"
+          }
           width={90}
           height={90}
           alt="profile-picture"

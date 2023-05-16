@@ -39,3 +39,12 @@ export const setOrder = async (data: CheckoutDataTypes) => {
     token: true,
   });
 };
+
+export const getMemberOverview = async () => {
+  const url = `${API_ROOT}/${API_VERSION}/players/dashboard`;
+
+  return callAPI({
+    url,
+    token: true,
+  });
+};

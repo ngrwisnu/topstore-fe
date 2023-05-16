@@ -17,6 +17,14 @@ export interface GameCategoriesTypes {
   name: string;
 }
 
+export interface GetServerSideProps {
+  req: {
+    cookies: {
+      tk: string;
+    };
+  };
+}
+
 export interface NominalTopUpProps {
   id: string;
   coinName: string;
@@ -83,4 +91,20 @@ export interface PlayerTypes {
 export interface PayloadTypes {
   player: PlayerTypes;
   iat: number;
+}
+
+export interface VoucherTopupHistoryTypes {
+  gameName: string;
+  category: string;
+  thumbnail: string;
+  coinName: string;
+  coinQuantity: string;
+  price: number;
+}
+
+export interface PaymentHistoryTypes {
+  name: string;
+  type: string;
+  bankName: string;
+  noRekening: string;
 }

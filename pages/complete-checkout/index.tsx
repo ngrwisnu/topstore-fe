@@ -263,7 +263,14 @@ const CompleteCheckoutPage = () => {
         </div>
         <div className="button-group d-flex flex-column mx-auto">
           <Link
-            className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16"
+            className="btn btn-home fw-medium text-lg text-white rounded-pill mb-16"
+            href="/"
+            role="button"
+          >
+            TopUp More Games
+          </Link>
+          <Link
+            className="btn btn-dashboard fw-medium text-lg rounded-pill mb-16"
             href="/member"
             role="button"
           >

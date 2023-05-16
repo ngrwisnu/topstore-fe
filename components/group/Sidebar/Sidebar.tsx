@@ -2,12 +2,22 @@ import React from "react";
 import Footer from "./Footer";
 import MenuItem from "./MenuItem";
 import Profile from "./Profile";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 type SidebarType = {
   activeMenu: string;
 };
 
 const Sidebar = (props: SidebarType) => {
+  const router = useRouter();
+
+  const logoutHandler = () => {
+    localStorage.clear();
+    Cookies.remove("tk");
+    router.push("/");
+  };
+
   return (
     <section className="sidebar">
       <div className="content pt-50 pb-30 ps-30">
@@ -34,7 +44,7 @@ const Sidebar = (props: SidebarType) => {
             icon="ic-setting"
             active={props.activeMenu === "edit-profile"}
           />
-          <MenuItem href="/login" title="Logout" icon="ic-logout" />
+          <MenuItem onclick={logoutHandler} title="Logout" icon="ic-logout" />
         </div>
         <Footer />
       </div>

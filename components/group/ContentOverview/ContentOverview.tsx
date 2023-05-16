@@ -1,9 +1,51 @@
 import Image from "next/image";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
 import TableRow from "./TableRow";
+import { getMemberOverview } from "../../../helpers/player";
+import { toast } from "react-toastify";
+import {
+  CategoryTypes,
+  PaymentHistoryTypes,
+  VoucherTopupHistoryTypes,
+} from "../../../helpers/data-types";
+
+interface HistoryTypes {
+  voucherTopupHistory: VoucherTopupHistoryTypes;
+  paymentHistory: PaymentHistoryTypes;
+  historyUser: {
+    name: string;
+    phoneNumber: number;
+  };
+  _id: string;
+  name: string;
+  tax: number;
+  value: number;
+  status: string;
+  player: string;
+  category: "Mobile" | "Desktop";
+  user: string;
+}
 
 const ContentOverview = () => {
+  const [history, setHistory] = useState([]);
+  const [count, setCount] = useState([]);
+
+  const memberOverview = useCallback(async () => {
+    const response = await getMemberOverview();
+
+    if (response?.error) {
+      toast.error(response?.message);
+    } else {
+      setHistory(response?.data.history);
+      setCount(response?.data.count);
+    }
+  }, []);
+
+  useEffect(() => {
+    memberOverview();
+  }, []);
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -14,21 +56,21 @@ const ContentOverview = () => {
           </p>
           <div className="main-content">
             <div className="row">
-              <CategoryCard spent={18000500} icon="game-desktop">
-                Desktop
-                <br />
-                Games
-              </CategoryCard>
-              <CategoryCard spent={8455000} icon="game-mobile">
-                Mobile
-                <br />
-                Games
-              </CategoryCard>
-              <CategoryCard spent={5000000} icon="game-other">
-                Other
-                <br />
-                Games
-              </CategoryCard>
+              {count.map(
+                (item: { _id: string; value: number; name: string }) => {
+                  return (
+                    <CategoryCard
+                      key={item._id}
+                      spent={item.value}
+                      icon={item.name}
+                    >
+                      {item.name}
+                      <br />
+                      Games
+                    </CategoryCard>
+                  );
+                }
+              )}
             </div>
           </div>
         </div>
@@ -49,38 +91,19 @@ const ContentOverview = () => {
                 </tr>
               </thead>
               <tbody>
-                <TableRow
-                  name="Mobile Legends: The New Battle 2021"
-                  image="overview-1"
-                  category="Desktop"
-                  item={200}
-                  price={290000}
-                  status="Pending"
-                />
-                <TableRow
-                  name="Call of Duty:Modern"
-                  image="overview-2"
-                  category="Desktop"
-                  item={550}
-                  price={740000}
-                  status="Pending"
-                />
-                <TableRow
-                  name="Clash of Clans"
-                  image="overview-3"
-                  category="Mobile"
-                  item={100}
-                  price={120000}
-                  status="Success"
-                />
-                <TableRow
-                  name="The Royal Game"
-                  image="overview-4"
-                  category="Mobile"
-                  item={200}
-                  price={200000}
-                  status="Failed"
-                />
+                {history.map((item: HistoryTypes) => {
+                  return (
+                    <TableRow
+                      name={item.voucherTopupHistory.gameName}
+                      image={item.voucherTopupHistory.thumbnail}
+                      category={item.voucherTopupHistory.category}
+                      item={`${item.voucherTopupHistory.coinQuantity} ${item.voucherTopupHistory.coinName}`}
+                      price={item.value}
+                      status={item.status}
+                      key={item._id}
+                    />
+                  );
+                })}
               </tbody>
             </table>
           </div>

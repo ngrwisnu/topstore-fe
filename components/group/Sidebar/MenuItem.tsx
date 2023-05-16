@@ -7,11 +7,12 @@ type MenuItemType = {
   title: string;
   icon: string;
   active?: boolean;
-  href: string;
+  href?: string;
+  onclick?: () => void;
 };
 
 const MenuItem = (props: MenuItemType) => {
-  const { title, icon, active, href } = props;
+  const { title, icon, active, href, onclick } = props;
 
   const classMenuItem = cx({
     item: true,
@@ -25,9 +26,15 @@ const MenuItem = (props: MenuItemType) => {
         <Image src={`/icon/${icon}.svg`} width={25} height={25} alt="" />
       </div>
       <p className="item-title m-0">
-        <Link href={href} className="text-lg text-decoration-none">
-          {title}
-        </Link>
+        {onclick ? (
+          <a onClick={onclick} className="text-lg text-decoration-none">
+            {title}
+          </a>
+        ) : (
+          <Link href={href!} className="text-lg text-decoration-none">
+            {title}
+          </Link>
+        )}
       </p>
     </div>
   );
