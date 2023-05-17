@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { PayloadTypes } from "../../../helpers/data-types";
+import { IMG } from "../../../utils/variables";
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -38,10 +39,7 @@ const Profile = () => {
         }}
       >
         <Image
-          src={
-            `${process.env.NEXT_PUBLIC_LOCAL_SERVER}/uploads/${user.avatar}` ||
-            "/img/avatar-1.png"
-          }
+          src={`${IMG}/${user.avatar}` || "/img/avatar-1.png"}
           width={90}
           height={90}
           alt="profile-picture"

@@ -5,6 +5,7 @@ import { getMemberTransactions } from "../../../helpers/dashboard";
 import { toast } from "react-toastify";
 import { currencyFormatter } from "../../../utils/currencyFormatter";
 import { VoucherTopupHistoryTypes } from "../../../helpers/data-types";
+import { IMG } from "../../../utils/variables";
 
 interface TransactionsTypes {
   status: string;
@@ -33,8 +34,6 @@ const TransactionsContent = () => {
   useEffect(() => {
     memberTransactions("");
   }, []);
-
-  const IMG = `${process.env.NEXT_PUBLIC_LOCAL_SERVER}/uploads`;
 
   const tabHandler = (value: string) => {
     setTab(value);

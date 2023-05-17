@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
+import { IMG } from "../../../utils/variables";
 
 const Auth = () => {
   const [isLogin, setIslogin] = useState(false);
@@ -45,7 +46,7 @@ const Auth = () => {
             aria-expanded="false"
           >
             <Image
-              src={`${process.env.NEXT_PUBLIC_LOCAL_SERVER}/uploads/${avatar}`}
+              src={`${IMG}/${avatar}`}
               className="rounded-circle"
               width="40"
               height="40"

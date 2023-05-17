@@ -2,6 +2,7 @@ import Image from "next/image";
 import cx from "classnames";
 import React from "react";
 import { currencyFormatter } from "../../../utils/currencyFormatter";
+import { IMG } from "../../../utils/variables";
 
 type TableRowType = {
   image: string;
@@ -38,7 +39,7 @@ const TableRow = (props: TableRowType) => {
         >
           <Image
             className=""
-            src={`${process.env.NEXT_PUBLIC_LOCAL_SERVER}/uploads/${image}`}
+            src={`${IMG}/${image}`}
             width="80"
             height="80"
             alt=""

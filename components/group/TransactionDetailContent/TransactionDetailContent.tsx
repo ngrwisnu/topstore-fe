@@ -26,7 +26,7 @@ const TransactionDetailContent = (props: TransactionDetailContentProps) => {
                       <Image
                         src={`${IMG}/${data.voucherTopupHistory.thumbnail}`}
                         width="200"
-                        height="130"
+                        height="250"
                         className="img-fluid"
                         alt=""
                       />
@@ -42,7 +42,9 @@ const TransactionDetailContent = (props: TransactionDetailContentProps) => {
                   </div>
                 </div>
                 <div>
-                  <p className="fw-medium text-center label pending m-0 rounded-pill">
+                  <p
+                    className={`fw-medium text-center label ${data.status} m-0 rounded-pill`}
+                  >
                     {data.status}
                   </p>
                 </div>

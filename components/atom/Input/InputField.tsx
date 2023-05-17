@@ -7,6 +7,7 @@ export type InputType = {
   value?: string;
   onchange?: (e: any) => any;
   required?: boolean;
+  disabled?: boolean;
 };
 
 const InputField = (props: InputType) => {
@@ -21,7 +22,7 @@ const InputField = (props: InputType) => {
         aria-describedby={id}
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onchange!(e.target.value)}
+        onChange={onchange}
         {...nativeProps}
       />
     </>
