@@ -28,7 +28,6 @@ const TransactionsContent = () => {
     } else {
       setTotal(response?.data.total);
       setTransactions(response?.data.data);
-      console.log(response);
     }
   }, []);
 

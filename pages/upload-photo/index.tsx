@@ -19,13 +19,11 @@ const UploadPhotoPage = () => {
 
   const gameCategories = useCallback(async () => {
     const response = await getGameCategories();
-    console.log(response);
     setCategories(response?.data);
     setFavorite(response?.data[0]._id);
   }, []);
 
   useEffect(() => {
-    console.log(checkUser);
     gameCategories();
   }, []);
 
@@ -39,7 +37,6 @@ const UploadPhotoPage = () => {
     data.append("favorite", favorite);
 
     const response = await uploadUserSignup(data);
-    console.log("response: ", response);
 
     if (response?.error) {
       toast.error("Email has been registered!");
