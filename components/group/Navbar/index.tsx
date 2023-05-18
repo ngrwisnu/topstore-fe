@@ -16,9 +16,8 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto text-lg gap-lg-0 gap-2">
               <NavLink link="Home" active href="/" />
-              <NavLink link="Games" />
-              <NavLink link="Rewards" />
-              <NavLink link="Discover" />
+              <NavLink link="Games" href="#games" />
+              <NavLink link="Rewards" href="/member/rewards" />
               <NavLink link="Global Rank" />
               <Auth />
             </ul>
