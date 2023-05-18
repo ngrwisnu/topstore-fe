@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { currencyFormatter } from "../../../utils/currencyFormatter";
 import { VoucherTopupHistoryTypes } from "../../../helpers/data-types";
 import { IMG } from "../../../utils/variables";
+import EmptyContent from "../../atom/EmptyContent";
 
 interface TransactionsTypes {
   status: string;
@@ -96,20 +97,24 @@ const TransactionsContent = () => {
                 </tr>
               </thead>
               <tbody id="list_status_item">
-                {transactions.map((item: TransactionsTypes) => {
-                  return (
-                    <TableRow
-                      key={item._id}
-                      id={item._id}
-                      name={item.voucherTopupHistory.gameName}
-                      image={`${IMG}/${item.voucherTopupHistory.thumbnail}`}
-                      category={item.voucherTopupHistory.category}
-                      item={`${item.voucherTopupHistory.coinQuantity} ${item.voucherTopupHistory.coinName}`}
-                      price={item.value}
-                      status={item.status}
-                    />
-                  );
-                })}
+                {!transactions.length ? (
+                  <EmptyContent />
+                ) : (
+                  transactions.map((item: TransactionsTypes) => {
+                    return (
+                      <TableRow
+                        key={item._id}
+                        id={item._id}
+                        name={item.voucherTopupHistory.gameName}
+                        image={`${IMG}/${item.voucherTopupHistory.thumbnail}`}
+                        category={item.voucherTopupHistory.category}
+                        item={`${item.voucherTopupHistory.coinQuantity} ${item.voucherTopupHistory.coinName}`}
+                        price={item.value}
+                        status={item.status}
+                      />
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>

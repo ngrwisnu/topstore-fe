@@ -9,6 +9,8 @@ import {
   PaymentHistoryTypes,
   VoucherTopupHistoryTypes,
 } from "../../../helpers/data-types";
+import EmptyContent from "../../atom/EmptyContent";
+import EmptyTopup from "../../atom/EmptyTopup";
 
 interface HistoryTypes {
   voucherTopupHistory: VoucherTopupHistoryTypes;
@@ -56,20 +58,35 @@ const ContentOverview = () => {
           </p>
           <div className="main-content">
             <div className="row">
-              {count.map(
-                (item: { _id: string; value: number; name: string }) => {
-                  return (
-                    <CategoryCard
-                      key={item._id}
-                      spent={item.value}
-                      icon={item.name}
-                    >
-                      {item.name}
-                      <br />
-                      Games
-                    </CategoryCard>
-                  );
-                }
+              {!count.length ? (
+                <div
+                  className=""
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: "1rem",
+                  }}
+                >
+                  <EmptyTopup title="PC" icon="game-desktop" />
+                  <EmptyTopup title="Mobile" icon="game-mobile" />
+                  <EmptyTopup title="Desktop" icon="game-desktop" />
+                </div>
+              ) : (
+                count.map(
+                  (item: { _id: string; value: number; name: string }) => {
+                    return (
+                      <CategoryCard
+                        key={item._id}
+                        spent={item.value}
+                        icon={item.name}
+                      >
+                        {item.name}
+                        <br />
+                        Games
+                      </CategoryCard>
+                    );
+                  }
+                )
               )}
             </div>
           </div>
@@ -91,19 +108,23 @@ const ContentOverview = () => {
                 </tr>
               </thead>
               <tbody>
-                {history.map((item: HistoryTypes) => {
-                  return (
-                    <TableRow
-                      name={item.voucherTopupHistory.gameName}
-                      image={item.voucherTopupHistory.thumbnail}
-                      category={item.voucherTopupHistory.category}
-                      item={`${item.voucherTopupHistory.coinQuantity} ${item.voucherTopupHistory.coinName}`}
-                      price={item.value}
-                      status={item.status}
-                      key={item._id}
-                    />
-                  );
-                })}
+                {!history.length ? (
+                  <EmptyContent />
+                ) : (
+                  history.map((item: HistoryTypes) => {
+                    return (
+                      <TableRow
+                        name={item.voucherTopupHistory.gameName}
+                        image={item.voucherTopupHistory.thumbnail}
+                        category={item.voucherTopupHistory.category}
+                        item={`${item.voucherTopupHistory.coinQuantity} ${item.voucherTopupHistory.coinName}`}
+                        price={item.value}
+                        status={item.status}
+                        key={item._id}
+                      />
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>

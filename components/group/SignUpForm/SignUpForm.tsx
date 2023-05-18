@@ -43,7 +43,7 @@ const SignUpForm = () => {
           id="name"
           placeholder="Enter your name"
           value={fullname}
-          onchange={setFullname}
+          onchange={(e) => setFullname(e.target.value)}
           required
         />
       </div>
@@ -59,7 +59,7 @@ const SignUpForm = () => {
           id="username"
           placeholder="Enter your username"
           value={username}
-          onchange={setUsername}
+          onchange={(e) => setUsername(e.target.value)}
           required
         />
       </div>
@@ -75,7 +75,7 @@ const SignUpForm = () => {
           id="email"
           placeholder="Enter your email address"
           value={email}
-          onchange={setEmail}
+          onchange={(e) => setEmail(e.target.value)}
           required
         />
       </div>
@@ -91,7 +91,7 @@ const SignUpForm = () => {
           id="password"
           placeholder="Your password"
           value={password}
-          onchange={setPassword}
+          onchange={(e) => setPassword(e.target.value)}
           required
         />
       </div>

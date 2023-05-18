@@ -35,9 +35,24 @@ const Sidebar = (props: SidebarType) => {
             title="Transactions"
             icon="ic-transactions"
           />
-          <MenuItem href="/member" title="Messages" icon="ic-message" />
-          <MenuItem href="/member" title="Card" icon="ic-card" />
-          <MenuItem href="/member" title="Rewards" icon="ic-reward" />
+          <MenuItem
+            active={props.activeMenu === "messages"}
+            href="/member/messages"
+            title="Messages"
+            icon="ic-message"
+          />
+          <MenuItem
+            active={props.activeMenu === "cards"}
+            href="/member/cards"
+            title="Cards"
+            icon="ic-card"
+          />
+          <MenuItem
+            active={props.activeMenu === "rewards"}
+            href="/member/rewards"
+            title="Rewards"
+            icon="ic-reward"
+          />
           <MenuItem
             href="/member/edit-profile"
             title="Settings"
