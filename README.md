@@ -23,8 +23,10 @@ TopStore is a prototype web app for the in-game top-up cast. Players/users can c
 - NextJS
 - Typescript
 - Vanilla CSS
+- Bootstrap 5
+- NodeJS
+- Express
 - Mock Server
-- Firebase
 - Postman
 - Git
 - VSCode
