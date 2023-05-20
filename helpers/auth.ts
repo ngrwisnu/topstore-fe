@@ -1,7 +1,7 @@
 import { LoginTypes } from "./data-types";
 import callAPI from "./api";
 
-const API_ROOT = process.env.NEXT_PUBLIC_LOCAL_SERVER;
+const API_ROOT = process.env.NEXT_PUBLIC_ONLINE_SERVER;
 
 export const uploadUserSignup = async (data: FormData) => {
   const url = `${API_ROOT}/auth/signup`;

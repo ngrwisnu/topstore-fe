@@ -39,7 +39,7 @@ const Profile = () => {
         }}
       >
         <Image
-          src={`${IMG}/${user.avatar}` || "/img/avatar-1.png"}
+          src={`${IMG}/${user.avatar}` || "/img/placeholder.jpg"}
           width={90}
           height={90}
           alt="profile-picture"

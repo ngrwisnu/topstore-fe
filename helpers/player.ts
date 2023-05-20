@@ -1,7 +1,7 @@
 import callAPI from "./api";
 import { CheckoutDataTypes } from "./data-types";
 
-const API_ROOT = process.env.NEXT_PUBLIC_LOCAL_SERVER;
+const API_ROOT = process.env.NEXT_PUBLIC_ONLINE_SERVER;
 const API_VERSION = "api/v1";
 const API_ENDPOINT = "players/landingpage";
 

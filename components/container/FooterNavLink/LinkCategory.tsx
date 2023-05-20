@@ -1,20 +1,16 @@
-import React from "react";
-import FooterNavLink from "./FooterNavLink";
+import React, { ReactNode } from "react";
 
 type FooterLinksType = {
   category: "Company" | "Support" | "Connect";
+  children: ReactNode;
+  icons?: boolean;
 };
 
-const LinkCategory = ({ category }: FooterLinksType) => {
+const LinkCategory = ({ category, children, icons }: FooterLinksType) => {
   return (
     <div className="col-md-4 col-6 mb-lg-0 mb-25">
       <p className="text-lg fw-semibold color-palette-1 mb-12">{category}</p>
-      <ul className="list-unstyled">
-        <FooterNavLink title="About Us" />
-        <FooterNavLink title="Press Release" />
-        <FooterNavLink title="Terms of Use" />
-        <FooterNavLink title="Privacy & Policy" />
-      </ul>
+      <ul className={`list-unstyled ${icons && "d-flex"}`}>{children}</ul>
     </div>
   );
 };

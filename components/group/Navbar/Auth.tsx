@@ -8,7 +8,7 @@ import { IMG } from "../../../utils/variables";
 
 const Auth = () => {
   const [isLogin, setIslogin] = useState(false);
-  const [avatar, setAvatar] = useState("/img/avatar-1.png");
+  const [avatar, setAvatar] = useState("/img/placeholder.jpg");
   const router = useRouter();
 
   useEffect(() => {
