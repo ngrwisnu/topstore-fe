@@ -32,6 +32,7 @@ const LoginPage = () => {
                     />
                   </Link>
                 </div>
+                <LoginForm />
               </div>
             </form>
           </div>

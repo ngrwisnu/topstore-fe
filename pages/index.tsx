@@ -35,7 +35,6 @@ export default function Home() {
           property="og: description"
           content="We provide many way to top up your game and you are ready to improve your game"
         />
-        <link rel="icon" href="/topstore-favic.ico" />
       </Head>
       <main>
         {/* <!-- Navbar --> */}
