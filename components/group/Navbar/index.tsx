@@ -5,20 +5,6 @@ import NavLink from "./NavLink";
 import ToggleNav from "./ToggleNav";
 
 const Navbar = () => {
-  const [player, setPlayer] = useState({
-    email: "",
-    password: "",
-  });
-
-  const getPlayerData = useCallback(async () => {
-    const result = await localStorage.getItem("player");
-    setPlayer(JSON.parse(result!));
-  }, [player]);
-
-  useEffect(() => {
-    getPlayerData();
-  }, []);
-
   return (
     <section className="container">
       <nav className="navbar navbar-expand-lg navbar-light bg-light bg-white pt-lg-40 pb-lg-40 pt-30 pb-50">
@@ -31,9 +17,9 @@ const Navbar = () => {
             <ul className="navbar-nav ms-auto text-lg gap-lg-0 gap-2">
               <NavLink link="Home" active href="/" />
               <NavLink link="Games" href="#games" />
-              <NavLink link="Rewards" href="#rewards" />
-              <NavLink link="Global Rank" href="#global-rank" />
-              {player ? <Auth isLogin /> : <Auth />}
+              <NavLink link="Rewards" href="/member/rewards" />
+              <NavLink link="Global Rank" />
+              <Auth />
             </ul>
           </div>
         </div>

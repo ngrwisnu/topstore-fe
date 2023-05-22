@@ -1,64 +1,31 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { getPlayers } from "../../../helpers/auth";
-import { PlayerTypes } from "../../../helpers/data-types";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../config/firebase";
-import { loggedInUser } from "../../../zustand";
-
-const initialValue = [
-  {
-    email: "",
-    favorite: "",
-    image: "",
-    password: "",
-    username: "",
-  },
-];
+import { setLogin } from "../../../helpers/auth";
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
-  const [players, setPlayers] = useState<PlayerTypes[]>(initialValue);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  // zustand
-  const addLoggedInUser = loggedInUser((state: any) => state.updateData);
-
-  const getPlayerList = useCallback(async () => {
-    const result = await getPlayers();
-    setPlayers(Object.values(result));
-  }, [getPlayers]);
-
-  useEffect(() => {
-    getPlayerList();
-  }, []);
-
   const submitHandler = async () => {
-    try {
-      //  * Sign in with firebase
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      const user = response.user;
+    const data = {
+      email,
+      password,
+    };
 
-      // * find user with uid
-      const playerData = players.find(
-        (item: PlayerTypes) => item.uid === user.uid
-      );
+    const response = await setLogin(data);
 
-      // * pass user data into local
-      if (playerData) {
-        const data = { ...playerData };
-        addLoggedInUser(data);
+    if (response?.error) {
+      toast.error(response.message.message);
+    } else {
+      const tk = response?.data.token;
+      const tkBase64 = window.btoa(tk);
+      Cookies.set("tk", tkBase64, { expires: 1 });
 
-        localStorage.setItem("player", JSON.stringify(data.createdAt));
-        router.push("/");
-      }
-    } catch (error: any) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      toast.error(errorMessage);
+      router.push("/");
     }
   };
 

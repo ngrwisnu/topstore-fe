@@ -13,8 +13,12 @@ const LoginPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="sign-in mx-auto">
-        <div className="row">
+
+      <section
+        className="sign-in"
+        style={{ height: "100vh", overflow: "hidden" }}
+      >
+        <div className="row" style={{ height: "100%" }}>
           <div className="col-xxl-5 col-lg-6 my-auto py-lg-0 pt-lg-50 pb-lg-50 pt-30 pb-47 px-0">
             <form action="" method="POST">
               <div className="container mx-auto">
@@ -28,7 +32,6 @@ const LoginPage = () => {
                     />
                   </Link>
                 </div>
-                <LoginForm />
               </div>
             </form>
           </div>

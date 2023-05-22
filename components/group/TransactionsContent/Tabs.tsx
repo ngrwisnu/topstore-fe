@@ -3,19 +3,20 @@ import cx from "classnames";
 type TabsType = {
   title: string;
   isActive?: boolean;
+  onclick: () => void;
 };
 
 const Tabs = (props: TabsType) => {
-  const { title, isActive = false } = props;
+  const { title, isActive = false, onclick } = props;
 
   const tabBtnClass = cx({
     "btn btn-status rounded-pill text-sm me-3": true,
     "btn-active": isActive,
   });
   return (
-    <a data-filter="*" href="#" className={tabBtnClass}>
+    <button onClick={onclick} className={tabBtnClass}>
       {title}
-    </a>
+    </button>
   );
 };
 

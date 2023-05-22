@@ -1,7 +1,45 @@
+import { useCallback, useEffect, useState } from "react";
 import TableRow from "./TableRow";
 import Tabs from "./Tabs";
+import { getMemberTransactions } from "../../../helpers/dashboard";
+import { toast } from "react-toastify";
+import { currencyFormatter } from "../../../utils/currencyFormatter";
+import { VoucherTopupHistoryTypes } from "../../../helpers/data-types";
+import { IMG } from "../../../utils/variables";
+import EmptyContent from "../../atom/EmptyContent";
+
+interface TransactionsTypes {
+  status: string;
+  value: number;
+  voucherTopupHistory: VoucherTopupHistoryTypes;
+  _id: string;
+}
 
 const TransactionsContent = () => {
+  const [tab, setTab] = useState("all");
+  const [total, setTotal] = useState(0);
+  const [transactions, setTransactions] = useState([]);
+
+  const memberTransactions = useCallback(async (value: string) => {
+    const response = await getMemberTransactions(value);
+
+    if (response?.error) {
+      toast.error(response?.message);
+    } else {
+      setTotal(response?.data.total);
+      setTransactions(response?.data.data);
+    }
+  }, []);
+
+  useEffect(() => {
+    memberTransactions("");
+  }, []);
+
+  const tabHandler = (value: string) => {
+    setTab(value);
+    memberTransactions(value);
+  };
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -11,16 +49,32 @@ const TransactionsContent = () => {
         <div className="mb-30">
           <p className="text-lg color-palette-2 mb-12">You’ve spent</p>
           <h3 className="text-5xl fw-medium color-palette-1">
-            Rp 4.518.000.500
+            {currencyFormatter(total)}
           </h3>
         </div>
         <div className="row mt-30 mb-20">
           <div className="col-lg-12 col-12 main-content">
             <div id="list_status_title">
-              <Tabs title="All" isActive />
-              <Tabs title="Pending" />
-              <Tabs title="Success" />
-              <Tabs title="Failed" />
+              <Tabs
+                title="All"
+                onclick={() => tabHandler("all")}
+                isActive={tab === "all"}
+              />
+              <Tabs
+                title="Pending"
+                onclick={() => tabHandler("pending")}
+                isActive={tab === "pending"}
+              />
+              <Tabs
+                title="Success"
+                onclick={() => tabHandler("success")}
+                isActive={tab === "success"}
+              />
+              <Tabs
+                title="Failed"
+                onclick={() => tabHandler("failed")}
+                isActive={tab === "failed"}
+              />
             </div>
           </div>
         </div>
@@ -42,38 +96,24 @@ const TransactionsContent = () => {
                 </tr>
               </thead>
               <tbody id="list_status_item">
-                <TableRow
-                  name="Mobile Legends: The New Battle 2021"
-                  image="overview-1"
-                  category="Desktop"
-                  item={200}
-                  price={290000}
-                  status="Pending"
-                />
-                <TableRow
-                  name="Call of Duty:Modern"
-                  image="overview-2"
-                  category="Desktop"
-                  item={550}
-                  price={740000}
-                  status="Pending"
-                />
-                <TableRow
-                  name="Clash of Clans"
-                  image="overview-3"
-                  category="Mobile"
-                  item={100}
-                  price={120000}
-                  status="Success"
-                />
-                <TableRow
-                  name="The Royal Game"
-                  image="overview-4"
-                  category="Mobile"
-                  item={200}
-                  price={200000}
-                  status="Failed"
-                />
+                {!transactions.length ? (
+                  <EmptyContent />
+                ) : (
+                  transactions.map((item: TransactionsTypes) => {
+                    return (
+                      <TableRow
+                        key={item._id}
+                        id={item._id}
+                        name={item.voucherTopupHistory.gameName}
+                        image={`${IMG}/${item.voucherTopupHistory.thumbnail}`}
+                        category={item.voucherTopupHistory.category}
+                        item={`${item.voucherTopupHistory.coinQuantity} ${item.voucherTopupHistory.coinName}`}
+                        price={item.value}
+                        status={item.status}
+                      />
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>

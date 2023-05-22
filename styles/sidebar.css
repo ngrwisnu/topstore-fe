@@ -5,7 +5,6 @@
   overflow: hidden;
   border-radius: 100%;
 }
-
 .sidebar .content {
   background: #ffffff;
   width: 290px;
@@ -32,6 +31,7 @@
 .sidebar .menus .item:hover a {
   color: #0c145a;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .sidebar .menus .item.active > svg path,

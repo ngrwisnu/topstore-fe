@@ -1,36 +1,36 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { setOrder } from "../../../helpers/player";
-import { loggedInUser } from "../../../zustand";
 
-const CheckoutConfirmation = () => {
+import { CheckoutDataTypes } from "../../../helpers/data-types";
+
+const CheckoutConfirmation = ({ voucher, topup, orderId }: any) => {
   const [isPaid, setIsPaid] = useState(false);
   const router = useRouter();
 
-  const user = loggedInUser((state: any) => state.data);
-
-  useEffect(() => {
-    console.log(user);
-  }, []);
-
   const onSubmit = async () => {
-    const checkoutDataLocal = localStorage.getItem("topup-data");
-    const checkoutData = JSON.parse(checkoutDataLocal!);
-
     if (!isPaid) {
       toast.warn("Complete the payment first!");
     } else {
-      const data = {
-        ...checkoutData,
-        status: "Pending",
-        uid: user.uid,
+      const data: CheckoutDataTypes = {
+        voucher: voucher._id,
+        nominal: topup.nominal.id,
+        payment: topup.payment.id,
+        bank: topup.payment.bankId,
+        name: topup.bankHolder,
+        accountUser: topup.id,
+        orderId,
       };
 
       const response = await setOrder(data);
-      localStorage.removeItem("topup-data");
-      router.push("/complete-checkout");
+
+      if (response?.error) {
+        toast.error(response.message);
+      } else {
+        localStorage.clear();
+        router.push("/complete-checkout");
+      }
     }
   };
 

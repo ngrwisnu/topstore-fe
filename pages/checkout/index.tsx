@@ -4,46 +4,62 @@ import React, { useEffect, useState } from "react";
 import CheckoutConfirmation from "../../components/group/CheckoutConfirmation/CheckoutConfirmation";
 import CheckoutDetail from "../../components/group/CheckoutDetail/CheckoutDetail";
 import CheckoutItem from "../../components/group/CheckoutItem/CheckoutItem";
-import { usePrivateRouter } from "../../helpers/hooks";
+
+import jwtDecode from "jwt-decode";
+import {
+  GetServerSideProps,
+  PayloadTypes,
+  PlayerTypes,
+} from "../../helpers/data-types";
+import randomNumber from "../../utils/randomNumber";
 
 const initialData = {
-  playerId: "",
-  bankHolderName: "",
-  nominalTopup: {
+  id: "",
+  bankHolder: "",
+  nominal: {
     id: "",
     coinName: "",
     coinQuantity: 0,
     price: 0,
   },
-  paymentMethod: {
+  payment: {
+    id: "",
     bankId: "",
     bankName: "",
     type: "",
-  },
-  voucherDetails: {
     name: "",
-    thumbnail: "",
-    category: {
-      _id: "",
-      name: "",
-      __v: 0,
-    },
+    accountNumber: "",
   },
 };
 
-const CheckoutPage = () => {
+interface CheckoutProps {
+  user: PlayerTypes;
+}
+
+const CheckoutPage = (props: CheckoutProps) => {
   const [topUpData, setTopUpData] = useState(initialData);
 
-  usePrivateRouter();
+  const [game, setGame] = useState({
+    thumbnail: "",
+    name: "",
+    category: "",
+    _id: "",
+  });
+  const [orderId, setOrderId] = useState("#TS0000");
 
   useEffect(() => {
-    const topUpFromLocal = localStorage.getItem("topup-data");
+    const orderid = randomNumber();
+    const gameDetails = JSON.parse(localStorage.getItem("game-details")!);
+    const topupDetails = JSON.parse(localStorage.getItem("topup-details")!);
 
-    if (!topUpFromLocal) {
-      return;
-    }
-
-    setTopUpData(JSON.parse(topUpFromLocal));
+    setGame({
+      thumbnail: gameDetails?.thumbnail,
+      name: gameDetails?.name,
+      category: gameDetails?.category.name,
+      _id: gameDetails?._id,
+    });
+    setTopUpData(topupDetails);
+    setOrderId(`#TS${orderid}`);
   }, []);
 
   return (
@@ -67,15 +83,20 @@ const CheckoutPage = () => {
               Waktunya meningkatkan cara bermain
             </p>
           </div>
-          <CheckoutItem voucherDetails={topUpData.voucherDetails} />
+          <CheckoutItem voucherDetails={game} />
           <hr />
           <CheckoutDetail
-            pid={topUpData.playerId}
-            nominalTopup={topUpData.nominalTopup}
-            paymentMethod={topUpData.paymentMethod}
-            bankHolderName={topUpData.bankHolderName}
+            pid={topUpData.id}
+            nominal={topUpData.nominal}
+            payment={topUpData.payment}
+            bankHolder={topUpData.bankHolder}
+            orderId={orderId}
           />
-          <CheckoutConfirmation />
+          <CheckoutConfirmation
+            orderId={orderId}
+            voucher={game}
+            topup={topUpData}
+          />
         </div>
       </section>
     </>
@@ -83,3 +104,26 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+
+export async function getServerSideProps({ req }: GetServerSideProps) {
+  const tk = req.cookies.tk;
+
+  if (!tk) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const beautyTk = Buffer.from(tk, "base64").toString("ascii");
+  const payload: PayloadTypes = jwtDecode(beautyTk);
+  const user: PlayerTypes = payload.player;
+
+  return {
+    props: {
+      user,
+    },
+  };
+}

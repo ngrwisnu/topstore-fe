@@ -4,23 +4,11 @@ import { getGameFeature } from "../../../helpers/player";
 import GamesCard from "../../container/GamesCard/GamesCard";
 
 const Games = () => {
-  const [gameList, setGameList] = useState([
-    {
-      _id: "",
-      name: "",
-      status: "",
-      thumbnail: "",
-      category: {
-        _id: "",
-        name: "",
-        __v: 0,
-      },
-    },
-  ]);
+  const [gameList, setGameList] = useState([]);
 
   const getGameList = useCallback(async () => {
     const data = await getGameFeature();
-    setGameList(data.data);
+    setGameList(data?.data);
   }, [getGameFeature]);
 
   useEffect(() => {
@@ -46,7 +34,8 @@ const Games = () => {
               // @ts-ignore
               title={item.name}
               // @ts-ignore
-              category={item.category?.name}
+
+              category={item?.category?.name}
               // @ts-ignore
               thumbnail={item.thumbnail}
             />

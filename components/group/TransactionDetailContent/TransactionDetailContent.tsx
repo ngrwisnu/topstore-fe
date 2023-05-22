@@ -1,13 +1,20 @@
 import Image from "next/image";
 import React from "react";
 import TransactionData from "./TransactionData";
+import { TransactionHistoryTypes } from "../../../helpers/data-types";
+import { IMG } from "../../../utils/variables";
 
-const TransactionDetailContent = () => {
+interface TransactionDetailContentProps {
+  data: TransactionHistoryTypes;
+}
+
+const TransactionDetailContent = (props: TransactionDetailContentProps) => {
+  const { data } = props;
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
         <h2 className="text-4xl fw-bold color-palette-1 mb-30">
-          Details #GG001
+          Details {data.orderId}
         </h2>
         <div className="details">
           <div className="main-content main-content-card overflow-auto">
@@ -17,9 +24,9 @@ const TransactionDetailContent = () => {
                   <div className="pe-4">
                     <div className="cropped">
                       <Image
-                        src="/img/Thumbnail-3.png"
+                        src={`${IMG}/${data.voucherTopupHistory.thumbnail}`}
                         width="200"
-                        height="130"
+                        height="250"
                         className="img-fluid"
                         alt=""
                       />
@@ -27,15 +34,18 @@ const TransactionDetailContent = () => {
                   </div>
                   <div>
                     <p className="fw-bold text-xl color-palette-1 mb-10">
-                      Mobile Legends:
-                      <br /> The New Battle 2021
+                      {data.voucherTopupHistory.gameName}
                     </p>
-                    <p className="color-palette-2 m-0">Category: Mobile</p>
+                    <p className="color-palette-2 m-0">
+                      Category: {data.voucherTopupHistory.category}
+                    </p>
                   </div>
                 </div>
                 <div>
-                  <p className="fw-medium text-center label pending m-0 rounded-pill">
-                    Pending
+                  <p
+                    className={`fw-medium text-center label ${data.status} m-0 rounded-pill`}
+                  >
+                    {data.status}
                   </p>
                 </div>
               </div>
@@ -44,30 +54,36 @@ const TransactionDetailContent = () => {
                 <h2 className="fw-bold text-xl color-palette-1 mb-20">
                   Purchase Details
                 </h2>
-                <TransactionData name="Your Game ID" value="masayoshizero" />
-                <TransactionData name="Order ID" value="#GG001" />
-                <TransactionData name="Item" value="250 Diamonds" />
-                <TransactionData name="Price" value={42280500} />
-                <TransactionData name="Tax (10%)" value={42280500} />
-                <TransactionData name="Total" value={42280500} isColored />
+                <TransactionData name="Your Game ID" value={data.accountUser} />
+                <TransactionData name="Order ID" value={data.orderId} />
+                <TransactionData
+                  name="Item"
+                  value={`${data.voucherTopupHistory.coinQuantity} ${data.voucherTopupHistory.coinName}`}
+                />
+                <TransactionData
+                  name="Price"
+                  value={data.voucherTopupHistory.price}
+                />
+                <TransactionData name="Tax (10%)" value={data.tax} />
+                <TransactionData name="Total" value={data.value} isColored />
               </div>
               <div className="payment pt-10 pb-10">
                 <h2 className="fw-bold text-xl color-palette-1 mb-20">
                   Payment Informations
                 </h2>
+                <TransactionData name="Your Account Name" value={data.name} />
+                <TransactionData name="Type" value={data.paymentHistory.type} />
                 <TransactionData
-                  name="Your Account Name"
-                  value="Masayoshi Angga Zero"
+                  name="Bank Name"
+                  value={data.paymentHistory.bankName}
                 />
-                <TransactionData name="Type" value="Worldwide Transfer" />
-                <TransactionData name="Bank Name" value="Mandiri" />
                 <TransactionData
                   name="Bank Account Name"
-                  value="PT Top Store Indonesia"
+                  value={data.paymentHistory.name}
                 />
                 <TransactionData
                   name="Bank Number"
-                  value="1800 - 9090 - 2021"
+                  value={data.paymentHistory.noRekening}
                 />
               </div>
               <div className="d-md-block d-flex flex-column w-100">

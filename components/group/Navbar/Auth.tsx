@@ -1,25 +1,35 @@
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
-import { loggedInUser } from "../../../zustand";
 
-type LoginType = {
-  isLogin?: boolean;
-};
+import React, { useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
+import { IMG } from "../../../utils/variables";
 
-const Auth = (props: LoginType) => {
-  const { isLogin } = props;
-
+const Auth = () => {
+  const [isLogin, setIslogin] = useState(false);
+  const [avatar, setAvatar] = useState("/img/placeholder.jpg");
   const router = useRouter();
 
-  // zustand
-  const statusUser = loggedInUser((state: any) => state.data);
-  const resetUser = loggedInUser((state: any) => state.resetData);
+  useEffect(() => {
+    const tk = Cookies.get("tk");
+
+    if (tk) {
+      const beautyTk = window.atob(tk!);
+      const payload = jwtDecode(beautyTk);
+      // @ts-ignore
+      const user = payload?.player;
+
+      setIslogin(true);
+      setAvatar(user.avatar);
+    }
+  }, []);
 
   const logoutHandler = () => {
-    resetUser();
-    localStorage.removeItem("player");
+    localStorage.clear();
+    Cookies.remove("tk");
+    setIslogin(false);
     router.reload();
   };
 
@@ -37,7 +47,7 @@ const Auth = (props: LoginType) => {
             aria-expanded="false"
           >
             <Image
-              src={statusUser.image}
+              src={`${IMG}/${avatar}`}
               className="rounded-circle"
               width="40"
               height="40"

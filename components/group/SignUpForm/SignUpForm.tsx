@@ -1,47 +1,30 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { userDataStore } from "../../../zustand";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../config/firebase";
+
+import { useUserFormStore } from "../../../zustand";
+import InputField from "../../atom/Input/InputField";
 
 const SignUpForm = () => {
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isError, setIsError] = useState(false);
+
   const router = useRouter();
-  const updateUserData = userDataStore((state: any) => state.updateData);
+
+  const user = useUserFormStore((state: any) => state.addSignUpData);
 
   const submitHandler = async () => {
-    try {
-      // * create account in firebase auth
-      const createUser = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = createUser.user;
+    const data = {
+      fullname,
+      username,
+      email,
+      password,
+    };
 
-      // * set data to update zustand
-      const data = {
-        fullname: fullname,
-        username: username,
-        email: user.email!,
-        uid: user.uid,
-        // @ts-ignore
-        createdAt: user.metadata?.createdAt,
-      };
-
-      updateUserData(data);
-      router.push("/upload-photo");
-    } catch (error: any) {
-      setIsError(true);
-      const errorMessage = error.message;
-      toast.error(errorMessage);
-    }
+    await user(data);
+    router.push("/upload-photo");
   };
 
   return (
@@ -57,15 +40,12 @@ const SignUpForm = () => {
         >
           Full Name
         </label>
-        <input
+        <InputField
           type="text"
-          className="form-control rounded-pill text-lg"
           id="name"
-          name="name"
-          aria-describedby="name"
           placeholder="Enter your name"
           value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
+          onchange={(e) => setFullname(e.target.value)}
           required
         />
       </div>
@@ -76,15 +56,12 @@ const SignUpForm = () => {
         >
           Username
         </label>
-        <input
+        <InputField
           type="text"
-          className="form-control rounded-pill text-lg"
           id="username"
-          name="username"
-          aria-describedby="username"
           placeholder="Enter your username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onchange={(e) => setUsername(e.target.value)}
           required
         />
       </div>
@@ -95,20 +72,12 @@ const SignUpForm = () => {
         >
           Email Address
         </label>
-        <input
+        <InputField
           type="email"
-          className={`
-            form-control 
-            rounded-pill 
-            text-lg 
-            ${isError ? "border-danger" : "border-dark"}
-          `}
           id="email"
-          name="email"
-          aria-describedby="email"
           placeholder="Enter your email address"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onchange={(e) => setEmail(e.target.value)}
           required
         />
       </div>
@@ -119,15 +88,12 @@ const SignUpForm = () => {
         >
           Password
         </label>
-        <input
+        <InputField
           type="password"
-          className="form-control rounded-pill text-lg"
           id="password"
-          name="password"
-          aria-describedby="password"
           placeholder="Your password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onchange={(e) => setPassword(e.target.value)}
           required
         />
       </div>

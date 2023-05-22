@@ -8,11 +8,12 @@ type MenuItemType = {
   icon: string;
   active?: boolean;
   href?: string;
-  onClick?: () => void;
+
+  onclick?: () => void;
 };
 
 const MenuItem = (props: MenuItemType) => {
-  const { title, icon, active, href = "/member", onClick } = props;
+  const { title, icon, active, href, onclick } = props;
 
   const classMenuItem = cx({
     item: true,
@@ -21,17 +22,17 @@ const MenuItem = (props: MenuItemType) => {
   });
 
   return (
-    <div className={classMenuItem} onClick={onClick}>
+    <div className={classMenuItem} onClick={onclick}>
       <div className="me-3">
         <Image src={`/icon/${icon}.svg`} width={25} height={25} alt="" />
       </div>
       <p className="item-title m-0">
-        {onClick ? (
-          <a type="button" className="text-lg text-decoration-none">
+        {onclick ? (
+          <a onClick={onclick} className="text-lg text-decoration-none">
             {title}
           </a>
         ) : (
-          <Link href={href} className="text-lg text-decoration-none">
+          <Link href={href!} className="text-lg text-decoration-none">
             {title}
           </Link>
         )}

@@ -1,55 +1,12 @@
 import { create } from "zustand";
 
-const userDataStore = create((set) => ({
+export const useUserFormStore = create((set) => ({
   data: {
     fullname: "",
     username: "",
     email: "",
-    image: "",
-    favorite: "",
-    uid: "",
-    createdAt: "",
+    password: "",
   },
-  updateData: (newData: { [key: string]: string }) =>
-    set((state: any) => ({ data: { ...state.data, ...newData } })),
-  resetData: () =>
-    set({
-      data: {
-        fullname: "",
-        username: "",
-        email: "",
-        image: "",
-        favorite: "",
-        uid: "",
-        createdAt: "",
-      },
-    }),
+  addSignUpData: (formValues: { [key: string]: string }) =>
+    set((state: any) => ({ data: { ...state.data, ...formValues } })),
 }));
-
-const loggedInUser = create((set) => ({
-  data: {
-    fullname: "",
-    username: "",
-    email: "",
-    image: "",
-    favorite: "",
-    uid: "",
-    createdAt: "",
-  },
-  updateData: (newData: { [key: string]: string }) =>
-    set((state: any) => ({ data: { ...state.data, ...newData } })),
-  resetData: () =>
-    set({
-      data: {
-        fullname: "",
-        username: "",
-        email: "",
-        image: "",
-        favorite: "",
-        uid: "",
-        createdAt: "",
-      },
-    }),
-}));
-
-export { userDataStore, loggedInUser };

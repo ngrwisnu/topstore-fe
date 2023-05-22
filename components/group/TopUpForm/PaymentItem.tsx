@@ -2,8 +2,11 @@ import React from "react";
 import { PaymentProps } from "../../../helpers/data-types";
 
 interface PaymentItemProps {
+  id: string;
   bankId: string;
   type: string;
+  name: string;
+  accountNumber: string;
   bankName: string;
   onChange: (data: PaymentProps) => void;
 }
@@ -15,9 +18,12 @@ const PaymentItem = (props: PaymentItemProps) => {
       htmlFor={props.bankId}
       onChange={() =>
         props.onChange({
+          id: props.id,
           bankId: props.bankId,
           type: props.type,
           bankName: props.bankName,
+          name: props.name,
+          accountNumber: props.accountNumber,
         })
       }
     >

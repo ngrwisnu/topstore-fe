@@ -1,65 +1,50 @@
+import callAPI from "./api";
 import { CheckoutDataTypes } from "./data-types";
 import { useFetchAPI } from "./hooks";
 
-const MOCK_API = process.env.NEXT_PUBLIC_MOCK_SERVER;
+const API_ROOT = process.env.NEXT_PUBLIC_ONLINE_SERVER;
 const API_VERSION = "api/v1";
-const URL = process.env.NEXT_PUBLIC_SERVER;
-const ENDPOINT = "orders.json";
 
 export const getGameFeature = async () => {
-  const url = `${MOCK_API}/${API_VERSION}/players/landing-page`;
+  let url = `${API_ROOT}/${API_VERSION}/players/landingpage`;
 
-  const result = await useFetchAPI({
+  return callAPI({
     url,
-    headers: {
-      "x-api-key": `${process.env.NEXT_PUBLIC_KEY}`,
-    },
   });
-
-  return result;
 };
 
 export const getVoucherFeature = async (id: any) => {
-  const url = `${MOCK_API}/${API_VERSION}/players/${id}/detail`;
+  const url = `${API_ROOT}/${API_VERSION}/players/${id}/detail`;
 
-  const result = await useFetchAPI({
+  return callAPI({
     url,
-    headers: {
-      "x-api-key": `${process.env.NEXT_PUBLIC_KEY}`,
-    },
   });
-
-  return result;
 };
 
 export const getGameCategories = async () => {
-  const url = `${MOCK_API}/${API_VERSION}/players/categories`;
+  let url = `${API_ROOT}/${API_VERSION}/players/category`;
 
-  const result = await useFetchAPI({
+  return callAPI({
     url,
-    headers: {
-      "x-api-key": `${process.env.NEXT_PUBLIC_KEY}`,
-    },
   });
-
-  return result;
 };
 
-export const setOrder = async (checkoutData: CheckoutDataTypes) => {
-  try {
-    const url = `${URL}/${ENDPOINT}`;
+export const setOrder = async (data: CheckoutDataTypes) => {
+  let url = `${API_ROOT}/${API_VERSION}/players/checkout`;
 
-    const result = await useFetchAPI({
-      url,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: checkoutData,
-    });
+  return callAPI({
+    url,
+    method: "POST",
+    data,
+    token: true,
+  });
+};
 
-    return result;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+export const getMemberOverview = async () => {
+  const url = `${API_ROOT}/${API_VERSION}/players/dashboard`;
+
+  return callAPI({
+    url,
+    token: true,
+  });
 };

@@ -1,38 +1,24 @@
-import { PlayerTypes } from "./data-types";
-import { useFetchAPI } from "./hooks";
+import { LoginTypes } from "./data-types";
+import callAPI from "./api";
 
-const URL = process.env.NEXT_PUBLIC_SERVER;
-const ENDPOINT = "players.json";
+const API_ROOT = process.env.NEXT_PUBLIC_ONLINE_SERVER;
 
-export const uploadUserSignup = async (userData: PlayerTypes) => {
-  try {
-    const url = `${URL}/${ENDPOINT}`;
+export const uploadUserSignup = async (data: FormData) => {
+  const url = `${API_ROOT}/auth/signup`;
 
-    const result = await useFetchAPI({
-      url,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: userData,
-    });
-
-    return result;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+  return callAPI({
+    url,
+    method: "POST",
+    data,
+  });
 };
 
-export const getPlayers = async () => {
-  try {
-    const url = `${URL}/${ENDPOINT}`;
+export const setLogin = async (data: LoginTypes) => {
+  const url = `${API_ROOT}/auth/signin`;
 
-    const result = await useFetchAPI({
-      url,
-    });
-
-    return result;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+  return callAPI({
+    url,
+    method: "POST",
+    data,
+  });
 };

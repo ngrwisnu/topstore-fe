@@ -11,13 +11,20 @@ type CategoryCardType = {
 const CategoryCard = (props: CategoryCardType) => {
   const { icon, spent } = props;
 
+  let iconCard =
+    icon === "Desktop"
+      ? "game-desktop"
+      : icon === "Mobile"
+      ? "game-mobile"
+      : "game-other";
+
   const formattedValue = currencyFormatter(spent);
 
   return (
     <div className="col-lg-4 ps-15 pe-15 pb-lg-0 pb-4">
       <div className="categories-card">
         <div className="d-flex align-items-center mb-24">
-          <Image src={`/icon/${icon}.svg`} width={60} height={60} alt="" />
+          <Image src={`/icon/${iconCard}.svg`} width={60} height={60} alt="" />
           <p className="color-palette-1 mb-0 ms-12">{props.children}</p>
         </div>
         <div>

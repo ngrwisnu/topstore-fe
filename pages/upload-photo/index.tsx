@@ -3,38 +3,30 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { uploadUserSignup } from "../../helpers/auth";
-import { CategoryTypes, PlayerTypes } from "../../helpers/data-types";
+import {
+  CategoryTypes,
+  GameCategoriesTypes,
+  PlayerTypes,
+} from "../../helpers/data-types";
 import { getGameCategories } from "../../helpers/player";
-import { userDataStore } from "../../zustand";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../../config/firebase";
 
-const initialCategories = [
-  {
-    _id: "",
-    name: "",
-    __v: 0,
-  },
-];
+import { useUserFormStore } from "../../zustand";
+import { toast } from "react-toastify";
 
 const UploadPhotoPage = () => {
-  const [categories, setCategories] =
-    useState<CategoryTypes[]>(initialCategories);
-  const [favourite, setFavourite] = useState("");
+  const [categories, setCategories] = useState<any>(null);
+  const [favorite, setFavorite] = useState("");
+  const [image, setImage] = useState("");
   const [avatar, setAvatar] = useState("/icon/avatar-profile.svg");
-  const [imageUrl, setImageUrl] = useState("");
-  const [uploadImage, setUploadImage] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
   const router = useRouter();
 
-  // Zustand
-  const currentUserData = userDataStore((state: any) => state.data);
-  const resetUserData = userDataStore((state: any) => state.resetData);
+  const checkUser = useUserFormStore((state: any) => state.data);
 
   const gameCategories = useCallback(async () => {
-    const data = await getGameCategories();
-
-    setCategories(data.data);
-    setFavourite(data.data[0]._id);
+    const response = await getGameCategories();
+    setCategories(response?.data);
+    setFavorite(response?.data[0]._id);
   }, []);
 
   useEffect(() => {
@@ -42,50 +34,28 @@ const UploadPhotoPage = () => {
   }, []);
 
   const submitHandler = async () => {
-    // * create user database
-    const data: PlayerTypes = {
-      ...currentUserData,
-      image: imageUrl,
-      favorite: favourite,
-    };
+    const data = new FormData();
+    data.append("image", image);
+    data.append("name", checkUser.fullname);
+    data.append("username", checkUser.username);
+    data.append("email", checkUser.email);
+    data.append("password", checkUser.password);
+    data.append("favorite", favorite);
 
-    uploadUserSignup(data);
+    const response = await uploadUserSignup(data);
 
-    router.push("/sign-up-success");
-    resetUserData();
+    if (response?.error) {
+      toast.error("Email has been registered!");
+    } else {
+      router.push("/sign-up-success");
+    }
   };
 
   const changeHandler = (event: any) => {
     const img = event.target.files[0];
-    setAvatar(img);
-
     // @ts-ignore
-    const imgName = new Date().getTime() + img.name;
-
-    const storageRef = ref(storage, imgName);
-    // @ts-ignore
-    const uploadTask = uploadBytesResumable(storageRef, img);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        if (progress < 100) {
-          setUploadImage(true);
-        } else {
-          setUploadImage(false);
-        }
-      },
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImageUrl(downloadURL);
-        });
-      }
-    );
+    setAvatar(URL.createObjectURL(img));
+    return setImage(img);
   };
 
   return (
@@ -105,7 +75,7 @@ const UploadPhotoPage = () => {
                   <div className="image-upload text-center">
                     <label htmlFor="avatar">
                       <Image
-                        src={imageUrl || avatar}
+                        src={avatar}
                         width={120}
                         height={120}
                         alt="upload photo"
@@ -121,12 +91,12 @@ const UploadPhotoPage = () => {
                     />
                   </div>
                 </div>
-                {/* <h2 className="fw-bold text-xl text-center color-palette-1 m-0">
-                  {currentUserData?.fullname}
+                <h2 className="fw-bold text-xl text-center color-palette-1 m-0">
+                  {userData?.fullname}
                 </h2>
                 <p className="text-lg text-center color-palette-1 m-0">
                   {userData?.email}
-                </p> */}
+                </p>
                 <div className="pt-50 pb-50">
                   <label
                     htmlFor="category"
@@ -139,11 +109,11 @@ const UploadPhotoPage = () => {
                     name="category"
                     className="form-select d-block w-100 rounded-pill text-lg"
                     aria-label="Favorite Game"
-                    value={favourite}
+                    value={favorite}
                     // @ts-ignore
-                    onChange={(e) => setFavourite(e.target.value)}
+                    onChange={(e) => setFavorite(e.target.value)}
                   >
-                    {categories?.map((item: CategoryTypes) => {
+                    {categories?.map((item: GameCategoriesTypes) => {
                       return (
                         <option value={item._id} key={item._id}>
                           {item.name}
@@ -159,9 +129,8 @@ const UploadPhotoPage = () => {
                   className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
                   type="button"
                   onClick={submitHandler}
-                  disabled={uploadImage}
                 >
-                  {uploadImage ? "Uploading..." : "Create My Account"}
+                  Create My Account
                 </button>
 
                 <a

@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["firebasestorage.googleapis.com"],
+    domains: ["localhost", "topstore-srvr.onrender.com"],
   },
 };
 

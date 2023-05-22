@@ -3,6 +3,7 @@ import React from "react";
 import Footer from "./Footer";
 import MenuItem from "./MenuItem";
 import Profile from "./Profile";
+import Cookies from "js-cookie";
 
 type SidebarType = {
   activeMenu: string;
@@ -12,7 +13,8 @@ const Sidebar = (props: SidebarType) => {
   const router = useRouter();
 
   const logoutHandler = () => {
-    localStorage.removeItem("player");
+    localStorage.clear();
+    Cookies.remove("tk");
     router.push("/");
   };
 
@@ -33,16 +35,31 @@ const Sidebar = (props: SidebarType) => {
             title="Transactions"
             icon="ic-transactions"
           />
-          <MenuItem href="/member" title="Messages" icon="ic-message" />
-          <MenuItem href="/member" title="Card" icon="ic-card" />
-          <MenuItem href="/member" title="Rewards" icon="ic-reward" />
+          <MenuItem
+            active={props.activeMenu === "messages"}
+            href="/member/messages"
+            title="Messages"
+            icon="ic-message"
+          />
+          <MenuItem
+            active={props.activeMenu === "cards"}
+            href="/member/cards"
+            title="Cards"
+            icon="ic-card"
+          />
+          <MenuItem
+            active={props.activeMenu === "rewards"}
+            href="/member/rewards"
+            title="Rewards"
+            icon="ic-reward"
+          />
           <MenuItem
             href="/member/edit-profile"
             title="Settings"
             icon="ic-setting"
             active={props.activeMenu === "edit-profile"}
           />
-          <MenuItem onClick={logoutHandler} title="Logout" icon="ic-logout" />
+          <MenuItem onclick={logoutHandler} title="Logout" icon="ic-logout" />
         </div>
         <Footer />
       </div>
