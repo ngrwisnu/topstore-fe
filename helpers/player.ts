@@ -1,6 +1,5 @@
 import callAPI from "./api";
 import { CheckoutDataTypes } from "./data-types";
-import { useFetchAPI } from "./hooks";
 
 const API_ROOT = process.env.NEXT_PUBLIC_ONLINE_SERVER;
 const API_VERSION = "api/v1";
